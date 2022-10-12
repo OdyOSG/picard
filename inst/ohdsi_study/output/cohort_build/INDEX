@@ -1,0 +1,3 @@
+Directions for the cohort_build folder
+
+This folder holds the cohort_meta.rds file that is built following the build_cohort function

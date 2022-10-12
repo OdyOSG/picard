@@ -1,0 +1,22 @@
+# Startup config.yml file
+
+default:
+  studyName: ohdsi_study
+  cohortTableName: cohorts
+
+# an example config.yml block using eunomia
+eunomia:
+  databaseName: eunomia
+  connectionDetails: !expr Eunomia::getEunomiaConnectionDetails()
+  cdm: main
+  vocab: main
+  write: main
+
+# a dummy block is added as a guide
+example:
+  databaseName: example
+  connectionDetails: !expr DatabaseConnector::createConnectionDetails(dbms = 'postgresql',
+    user = 'user', password = 'password', server = 'server', port = 'port')
+  cdm: cdm_schema
+  vocab: vocabulary_schema
+  write: write_schema

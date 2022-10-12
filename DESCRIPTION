@@ -1,0 +1,39 @@
+Package: picard
+Title: OHDSI Study Developer Tool
+Version: 0.0.1
+Authors@R: 
+    person("Martin", "Lavallee", , "martin.lavallee@odysseusinc.com", role = c("aut", "cre"))
+Description: This R package helps set up and create an ohdsi study
+License: Apache License (>= 2)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
+Depends: 
+    R (>= 3.5.0)
+Imports: 
+    CohortDiagnostics,
+    config,
+    dplyr,
+    keyring,
+    usethis,
+    magrittr,
+    CirceR,
+    DatabaseConnector,
+    SqlRender,
+    readr,
+    purrr,
+    tidyr,
+    glue,
+    here
+Remotes:
+    ohdsi/CirceR,
+    ohdsi/CohortDiagnostics
+Collate: 
+    'analysisConfiguration.R'
+    'baseline_characteristics.R'
+    'helpers.R'
+    'buildCohorts.R'
+    'diagnostics.R'
+    'ohdsi_project.R'
+    'post_index_drugs.R'
+    'strata.R'
