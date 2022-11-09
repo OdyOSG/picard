@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # Welcome to OHDSI Project
 
 You have successfully initialized an ohdsi project using the picard

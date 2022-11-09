@@ -1,14 +1,10 @@
 # Step 0: Load libraries
-
-library(config)
-library(keyring)
 library(tidyverse, quietly = TRUE)
 library(picard)
 options(dplyr.summarise.inform = FALSE)
 
-
-# prepare the study with options optum, ckd, or mrktscan
 database <- "example" #initialize database
+picard::check_credentials(database)
 
 
 #create execution settings

@@ -19,7 +19,7 @@ set_credentials <- function(database,
   cred <- paste(database, credentials, sep = "_")
 
   for (i in seq_along(cred)) {
-    keyring::key_set(cred[i], prompt = paste(cred, ":"))
+    keyring::key_set(cred[i], prompt = paste(cred[i], ":"))
     ParallelLogger::logInfo("Keyring set for ", crayon::green(cred[i]))
   }
   invisible(cred)
@@ -32,20 +32,32 @@ check_credentials <- function(database,
                               credentials = c('dbms', 'user', 'password', 'server',
                                               'port', 'cdm', 'vocab', 'write')) {
 
+
   cred <- paste(database, credentials, sep = "_")
 
   for (i in seq_along(cred)) {
-    tmp <- keyring::key_get(cred[i])
-    cli::cat_bullet("Keyring for ", crayon::green(cred[i]), " is: ", crayon::blurred(tmp))
-  }
+    tmp <- purrr::safely(keyring::key_get)
+    if (is.null(tmp(cred[i]$error))) {
+      ParallelLogger::logInfo("Keyring for ", crayon::green(cred[i]), " is: ",
+                              crayon::blurred(tmp(cred[i]$result)))
 
-  qq <- usethis::ui_nope("Are these credentials correct?", n_no = 1)
-  if (qq) {
-    ParallelLogger::logInfo("Run function ",
-                            crayon::red("picard::set_credentials"),
-                            " to update")
-  } else{
-    ParallelLogger::logInfo("Config.yml is ready to go!")
+      qq <- usethis::ui_nope("Are these credentials correct?", n_no = 1)
+
+      if (qq) {
+
+        ParallelLogger::logInfo("Run function ",
+                                crayon::red("picard::set_credentials"),
+                                " to update")
+
+      } else{
+
+        ParallelLogger::logInfo("Config.yml is ready to go!")
+
+      }
+
+    } else{
+      ParallelLogger::logError("Error: Keyring not set for ", crayon::green(cred[i]))
+    }
   }
 
   invisible(cred)
