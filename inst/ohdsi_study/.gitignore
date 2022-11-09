@@ -5,3 +5,6 @@
 .Rproj.user/
 .Renviron
 
+scratch/
+config.yml
+

@@ -1,9 +1,3 @@
-################################################################
-# Code to Run
-# Written by: Martin Lavallee Odysseus Data Services Inc
-# Questions contact martin.lavallee@odysseusinc.com
-################################################################
-
 # Step 0: Load libraries
 
 library(config)
@@ -16,7 +10,6 @@ options(dplyr.summarise.inform = FALSE)
 # prepare the study with options optum, ckd, or mrktscan
 database <- "example" #initialize database
 
-setup_study(database)
 
 #create execution settings
 execution_settings <- picard::get_execution_settings(database)

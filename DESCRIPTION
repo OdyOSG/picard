@@ -9,16 +9,17 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.5.0),
+    config,
+    keyring
 Imports: 
     CohortDiagnostics,
-    config,
-    dplyr,
-    keyring,
     usethis,
     magrittr,
     CirceR,
     DatabaseConnector,
+    CohortGenerator,
+    CirceR,
     SqlRender,
     readr,
     purrr,
@@ -27,13 +28,15 @@ Imports:
     here
 Remotes:
     ohdsi/CirceR,
-    ohdsi/CohortDiagnostics
+    ohdsi/CohortDiagnostics,
+    ohdsi/CohortGenerator
 Collate: 
-    'analysisConfiguration.R'
     'baseline_characteristics.R'
     'helpers.R'
     'buildCohorts.R'
+    'dbSettings.R'
     'diagnostics.R'
     'ohdsi_project.R'
     'post_index_drugs.R'
+    'setup.R'
     'strata.R'
