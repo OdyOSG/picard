@@ -6,8 +6,7 @@
 \usage{
 set_credentials(
   database,
-  credentials = c("dbms", "user", "password", "server", "port", "cdm", "vocab",
-    "write")
+  credentials = c("dbms", "user", "password", "server", "port", "cdm", "vocab", "write")
 )
 }
 \description{
