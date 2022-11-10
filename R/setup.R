@@ -37,27 +37,29 @@ check_credentials <- function(database,
 
   for (i in seq_along(cred)) {
     tmp <- purrr::safely(keyring::key_get)
-    if (is.null(tmp(cred[i]$error))) {
+    check <- tmp(cred[i])
+
+    if (is.null(check$error)) {
       ParallelLogger::logInfo("Keyring for ", crayon::green(cred[i]), " is: ",
-                              crayon::blurred(tmp(cred[i]$result)))
-
-      qq <- usethis::ui_nope("Are these credentials correct?", n_no = 1)
-
-      if (qq) {
-
-        ParallelLogger::logInfo("Run function ",
-                                crayon::red("picard::set_credentials"),
-                                " to update")
-
-      } else{
-
-        ParallelLogger::logInfo("Config.yml is ready to go!")
-
-      }
+                              crayon::blurred(check$result))
 
     } else{
       ParallelLogger::logError("Error: Keyring not set for ", crayon::green(cred[i]))
     }
+  }
+
+  qq <- usethis::ui_nope("Are these credentials correct?", n_no = 1)
+
+  if (qq) {
+
+    ParallelLogger::logInfo("Run function ",
+                            crayon::red("picard::set_credentials"),
+                            " to update")
+
+  } else{
+
+    ParallelLogger::logInfo("Config.yml is ready to go!")
+
   }
 
   invisible(cred)
