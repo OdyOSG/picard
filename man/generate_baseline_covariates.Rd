@@ -7,9 +7,10 @@
 generate_baseline_covariates(
   execution_settings,
   target_cohort_id,
-  cohort_meta,
-  strata = NULL,
-  output_path = "output/baseline"
+  target_cohort_name,
+  strata_id = NULL,
+  strata_name = NULL,
+  output_path
 )
 }
 \arguments{
@@ -18,12 +19,15 @@ generate_baseline_covariates(
 \item{target_cohort_id}{an integer specifying the cohort id to use. Please review
 the cohort_meta file in output/cohort_build to determine the cohort definition ids}
 
-\item{cohort_meta}{file that specifies all cohorts created for the study.
-Function will extract covariate cohorts only for the analysis.}
+\item{target_cohort_name}{the name of the target cohort}
 
-\item{strata}{a dateframe from a strata function}
+\item{strata_id}{an integer specifying the strata id used}
+
+\item{strata_name}{the name of the strata}
 
 \item{output_path}{the output path to save the file. Default output/baseline}
+
+\item{cohort_meta}{file that specifies all cohorts created for the study.}
 }
 \description{
 The baseline covariates are used to create the summary table 1 of our analysis. Further

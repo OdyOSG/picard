@@ -4,7 +4,6 @@ library(picard)
 options(dplyr.summarise.inform = FALSE)
 
 database <- "example" #initialize database
-picard::check_credentials(database)
 
 
 #create execution settings

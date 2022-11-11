@@ -40,7 +40,7 @@ build_cohorts <- function(execution_settings,
                                         ~CirceR::buildCohortQuery(CirceR::cohortExpressionFromJson(.x),
                                                                   CirceR::createGenerateOptions(generateStats = TRUE)))
   #generate cohorts using cohort generator
-  cli::cat_rule(center = crayon::bgMagenta("Generating Cohorts for ONC Workshop"))
+  cli::cat_rule(center = crayon::bgMagenta("Generating Cohorts for Study"))
   CohortGenerator::generateCohortSet(connectionDetails = execution_settings$connectionDetails,
                                      cdmDatabaseSchema = execution_settings$cdm_schema,
                                      cohortDatabaseSchema = execution_settings$write_schema,

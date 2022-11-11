@@ -1,0 +1,79 @@
+{
+ "ConceptSets": [
+ {
+ "id": 0,
+"name": "nonDihydropyridineCalciumChannelBlocker",
+"expression": {
+ "items": [
+ {
+ "concept": {
+ "CONCEPT_ID": 1307863,
+"CONCEPT_NAME": "Verapamil",
+"STANDARD_CONCEPT": "S",
+"STANDARD_CONCEPT_CAPTION": "Standard",
+"INVALID_REASON": "V",
+"INVALID_REASON_CAPTION": "Valid",
+"CONCEPT_CODE": "11170",
+"DOMAIN_ID": "Drug",
+"VOCABULARY_ID": "RxNorm",
+"CONCEPT_CLASS_ID": "Ingredient" 
+},
+"includeDescendants": true 
+},
+{
+ "concept": {
+ "CONCEPT_ID": 1328165,
+"CONCEPT_NAME": "Diltiazem",
+"STANDARD_CONCEPT": "S",
+"STANDARD_CONCEPT_CAPTION": "Standard",
+"INVALID_REASON": "V",
+"INVALID_REASON_CAPTION": "Valid",
+"CONCEPT_CODE": "3443",
+"DOMAIN_ID": "Drug",
+"VOCABULARY_ID": "RxNorm",
+"CONCEPT_CLASS_ID": "Ingredient" 
+},
+"includeDescendants": true 
+} 
+] 
+} 
+} 
+],
+"PrimaryCriteria": {
+ "CriteriaList": [
+ {
+ "DrugExposure": {
+ "CodesetId": 0 
+} 
+} 
+],
+"ObservationWindow": {
+ "PriorDays": 0,
+"PostDays": 0 
+},
+"PrimaryCriteriaLimit": {
+ "Type": "All" 
+} 
+},
+"QualifiedLimit": {
+ "Type": "First" 
+},
+"ExpressionLimit": {
+ "Type": "First" 
+},
+"InclusionRules": [],
+"EndStrategy": {
+ "CustomEra": {
+ "DrugCodesetId": 0,
+"GapDays": 30,
+"Offset": 0 
+} 
+},
+"CensoringCriteria": [],
+"CollapseSettings": {
+ "CollapseType": "ERA",
+"EraPad": 30 
+},
+"CensorWindow": {},
+"cdmVersionRange": ">=5.0.0" 
+}

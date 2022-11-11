@@ -31,12 +31,13 @@ Remotes:
     ohdsi/CohortDiagnostics,
     ohdsi/CohortGenerator
 Collate: 
-    'baseline_characteristics.R'
     'helpers.R'
+    'strata.R'
+    'baseline_characteristics.R'
     'buildCohorts.R'
     'dbSettings.R'
+    'demoSetup.R'
     'diagnostics.R'
     'ohdsi_project.R'
     'post_index_drugs.R'
     'setup.R'
-    'strata.R'

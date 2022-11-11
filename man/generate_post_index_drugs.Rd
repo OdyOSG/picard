@@ -7,9 +7,11 @@
 generate_post_index_drugs(
   execution_settings,
   target_cohort_id,
+  target_cohort_name,
   cohort_meta,
-  strata = NULL,
-  output_path = "output/post_index"
+  strata_id,
+  strata_name,
+  output_path
 )
 }
 \arguments{
@@ -18,11 +20,15 @@ generate_post_index_drugs(
 \item{target_cohort_id}{an integer specifying the cohort id to use. Please review
 the cohort_meta file in output/cohort_build to determine the cohort definition ids}
 
+\item{target_cohort_name}{the name of the target cohort}
+
 \item{cohort_meta}{file that specifies all cohorts created for the study.}
 
-\item{strata}{a dateframe from a strata function}
+\item{strata_id}{an integer specifying the strata id used}
 
-\item{output_path}{the output path to save the file. Default output/postindex}
+\item{strata_name}{the name of the strata}
+
+\item{output_path}{the output path to save the file. Default output/baseline}
 }
 \description{
 Function that gets the post_index drugs for the analysis
