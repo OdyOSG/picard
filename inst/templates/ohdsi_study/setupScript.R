@@ -1,9 +1,9 @@
 library(picard)
 
 edit_config()
-database <- "<insert_database>"
-set_credentials(database)
-check_credentials(database)
+config_block <- "<insert_database>"
+set_credentials(config_block)
+check_credentials(config_block)
 
 
-initialize_cohort_tables(database)
+initialize_cohort_tables(config_block)
