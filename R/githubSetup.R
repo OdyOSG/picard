@@ -41,6 +41,14 @@ start_github_repo <- function(author,
     create_study_readme(author = author, study_type = study_type)
   }
 
+  #setup git ignore
+  ignores <- c("scratch/",
+               "WELCOME.md",
+               "output/",
+               "config.yml",
+               "setupScript.R")
+  usethis::use_git_ignore(ignores = ignores)
+
   #initialize git
   usethis::use_git(message = "Initialize OHDSI Project")
   #create github repo
