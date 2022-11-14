@@ -4,8 +4,8 @@
 #' @include helpers.R
 #' @export
 load_cohorts <- function(from_path, to_path){
-  fs::path_expand_r(to_path) %>%
-    fs::dir_create(to_path)
+  to_path <- fs::path_expand_r(to_path) %>%
+    fs::dir_create()
   ParallelLogger::logInfo(
     "Loading cohorts into ", crayon::blue(to_path), "from ", crayon::red(from_path)
   )
@@ -38,8 +38,9 @@ create_cohort_tracking <- function(cohort_path) {
   template <- readr::read_lines(template_path)
 
   #create the whisker parameters
-  cohort_files <- list.files(cohort_path) %>%
-    tools::file_path_sans_ext() %>%
+  cohort_files <- fs::dir_ls(cohort_path, recurse = TRUE, type = "file") %>%
+    purrr::map_chr(~fs::path_file(.x)) %>%
+    purrr::map_chr(~fs::path_ext_remove(.x)) %>%
     SqlRender::camelCaseToTitleCase() %>%
     tibble::tibble(cohort = .)
   date <- tibble::tibble(date = rep(as.character(lubridate::today()),

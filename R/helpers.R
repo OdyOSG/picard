@@ -1,7 +1,7 @@
 move_files <- function(from_path, to_path) {
   # copy files from inst to initialized directory
   r <- fs::path_expand_r(from_path) %>%
-    fs::dir_ls(recurse = FALSE, type = "file") %>%
+    fs::dir_ls(recurse = TRUE, type = "file") %>%
     purrr::map(~fs::file_copy(path = .x, new_path = to_path, overwrite = TRUE))
   invisible(r)
 }
