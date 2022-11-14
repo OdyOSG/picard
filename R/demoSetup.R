@@ -4,8 +4,8 @@
 #' @include helpers.R
 #' @export
 load_cohorts <- function(from_path, to_path){
-  path <- fs::path_expand_r(to_path) %>% as.character()
-  fs::dir_create(to_path)
+  fs::path_expand_r(to_path) %>%
+    fs::dir_create(to_path)
   ParallelLogger::logInfo(
     "Loading cohorts into ", crayon::blue(to_path), "from ", crayon::red(from_path)
   )
@@ -17,13 +17,12 @@ load_cohorts <- function(from_path, to_path){
   invisible(r)
 }
 
-boo_cohorts_path <- function() {
-  fs::path_package("picard", "templates/demo_cohorts/boo")
+#' Function to get demo cohorts
+#' @export
+demo_cohorts <- function() {
+  fs::path_package("picard", "templates/demo_cohorts")
 }
 
-gi_cohorts_path <- function() {
-  fs::path_package("picard", "templates/demo_cohorts/gi")
-}
 
 #' create file for cohort tracking
 #' @param cohort_path path to directory holding cohorts

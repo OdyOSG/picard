@@ -1,0 +1,112 @@
+---
+title: "Welcome to an OHDSI Project"
+author: "Martin Lavallee"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>")
+```
+
+## Welcome
+
+You have successfully initialized an ohdsi project using the picard package. This file provides guidance on how to configure the ohdsi study for your OMOP data and add extensions for your analysis.
+
+## Config.yml
+
+The first step in setting up your project is editing your config.yml file. We use this file to safely pass db credentials in our connection. This file is called when we create the `executionSettings` object used throughout analysis.
+
+```{r}
+picard::edit_config()
+```
+### Default Configuration
+
+The function above opens the config.yml file within your project. The yml file is organized in `key: value` pairs. The first row of a block defines the name of the configuration. The first block is always 'default'. This block defines global parameters that are the same for any of the remaining blocks. In the 'default' block you will see a tab to the first new `key: value` pair called studyName and a second for cohortTable Names. The 'studyName' we use to provide a name to our study. The 'cohortTableName' gives the name for the cohort table of the study and is the header for any subsequent names. The cohort tables are written to the `write_schema` an area where you as a user should have read and write access. In the open config.yml file change your studyName and cohortTableName to an appropriate name.
+
+
+### Sub-configurations
+
+The next block of the config.yml file defines the parameters for a sub-configuration. We divide all sub-blocks by databases used in your ohdsi study. If you are running a study on 3 OMOP databases where you have credentials and access, you would create 3 sub-blocks. You should provide a single word for your sub-configuration block that is distinctive. This header is what you will use when calling a configuration in `picard::execution_settings`. Within this sub-configuration, the first `key: value` pair names the database. This parameter is used for naming purposes. Create a new sub-block for each database you will use in your study. Name the header and give an appropriate database name. Finally find and replace the word 'example' with the same name as the header of the sub-block. Once you are done save, close and restart your R session to invoke the changes. 
+
+
+## Setting Credentials
+
+In the config.yml there were several calls of `keyring::key_get` this is were our database credentials will be placed in the config.yml file. We must set these credentials next. Each credential is hidden behind the keyring credential API. To set these credentials we call the function `picard::set_credentials`. More details on the credentials are explained in the next section. 
+
+```{r}
+#| label: set_credentials
+#| eval: false
+config_block <- "odysseus"
+picard::set_credentials(config_block)
+```
+
+Running this command will create a prompt window to input your credentials. Copy and paste your credentials into each prompt for the active config_block.
+
+We can check the credentials by running: `picard::check_credentials`.
+
+
+### ConnectionDetails
+
+After the databaseName, the next part of the sub-configuration is the 'connectionDetails' input. Notice we preface this line with `!expr`, this indicates we are evaluating an expression in this row. We evaluate the `DatabaseConnector::createConnectionDetails` expression where each input is a different credential used to connect to database hosting the OMOP data. Typically we need to set the dbms, server, user, password, and port. For more information on how to properly set the connectionDetails see the documentation
+
+```{r}
+?DatabaseConnector::createConnectionDetails
+```
+
+### Schemas
+
+The remaining three parameters define the schemas to find information for your OHDSI project. The first schema is the cdm, this is where the OMOP cdm data is stored. The next schema is for the vocabulary, where the concept information is stored. Typically this schema is the same as the cdm schema. The last schema is the write schema. This is a place where you as a user have read and write accesss. The cdm and vocab schemas should only have read access. The write schema should be different from the schema used to store WebAPI/ATLAS data. This should be a private "scratch" schema for the user. Ask your database manager if it is possible to create one. 
+
+## Setting up the project space
+
+Now that we have successfully set up out credentials, we can begin adding pieces of the project. 
+
+### Cohort Tables
+
+An important step is to initialize the cohort tables in your write schema to build your study cohorts.
+
+```{r}
+picard::initialize_cohort_tables(config_block)
+```
+
+### Input Directory
+
+Next we need cohorts for our study. picard lets us import a directory that stores cohort definition jsons into the project. For this example we will use default cohorts from the book of ohdsi. 
+
+```{r}
+picard::input_directory(cohort_path = picard::demo_cohorts())
+```
+
+Creating the input directory adds all our cohorts into a folder named cohorts to create. It also initializes a file called chort_tracking.md which keeps track of any changes to the cohort definition json files. Users should provide simple explanations as to why a cohort definition has changed.
+
+### Output Directory
+
+Before running analysis, we need to create output folders where we save files from the analysis. We can provide a set of output folder names to initialize the output directory. 
+
+```{r}
+picard::output_directory(
+  output_folders_names = c("cohort_build", "diagnostics", "baseline")
+)
+```
+
+## Running the study
+
+Once we have set up the config.yml file and initialized the directories, we can start running our analysis. To run the analysis we have a codeToRun.R file which we can execute. This file is initialized with a basic setup for getting the execution settings, building cohorts and starting cohort diagnostics. 
+
+## Committing to Github
+
+Once we are happy with our study pipeline, we can open this study up to collaborators. This requires creating a github repository. A user can do so with the following:
+
+```{r}
+picard::picard::start_github_repo(
+  author = "Author",
+  study_type = "Characterization",
+  organization = "OdyOSG",
+  private = TRUE
+)
+```
+

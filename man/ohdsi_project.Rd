@@ -4,12 +4,10 @@
 \alias{ohdsi_project}
 \title{Create ohdsi project}
 \usage{
-ohdsi_project(path, cohort_path)
+ohdsi_project(path)
 }
 \arguments{
 \item{path}{Folder where the new project should be created}
-
-\item{cohorts_path}{path to cohort json files}
 }
 \description{
 Create ohdsi project
