@@ -9,6 +9,7 @@ move_files <- function(from_path, to_path) {
 
 
 
+
 verbose_build <- function(conn, sql, cohort_id, cohort_name, cohort_file) {
 
   usethis::ui_info("Generating Cohort Definition {ui_value(cohort_id)} {ui_value(cohort_name)}

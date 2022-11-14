@@ -66,7 +66,18 @@ check_credentials <- function(database,
 }
 
 
+#' Import a config.yml file
+#'
+#' @export
+import_config <- function(path) {
 
+  path_check <- fs::path_expand_r(path) %>%
+    fs::path_ext()
+  checkmate::assert_character(path_check, pattern = "yml")
 
+  ParallelLogger::logInfo("Importing config.yml from: ", crayon::green(path))
+  fs::path_expand_r(path) %>%
+    fs::file_copy(new_path = here::here(), overwrite = TRUE)
+}
 
 
