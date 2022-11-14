@@ -1,4 +1,6 @@
-# Cohort Updates
+# Cohort Tracking
+
+This file tracks for cohorts for {{{ project }}}
 
 <!--- 
 
@@ -8,19 +10,15 @@ This file is suppose to help organize and track the development of cohort defini
 
 --->
 
-## Startup
+{{#dat}}
 
-### celecoxib
+## {{cohort}}
 
--   **Description**: Drug exposure cohort for celecoxib
--   Initial upload on 10/12/2022
+<!-- add description -->
 
-### diclofenac
+- Version 1.0 ({{date}})
+  - Initialize cohort
+  - load into input folder
 
--   **Description**: Drug exposure cohort for diclofenac
--   Initial upload on 10/12/2022
+{{/dat}}
 
-### gi_bleed
-
--   **Description**: Condition Occurrence cohort for gastrointestinal bleeding
--   Initial upload on 10/12/2022

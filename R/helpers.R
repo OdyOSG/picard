@@ -1,26 +1,16 @@
-#' Update input folder
-#'
-#' @param input_path the path to the input json files
-#' @export
-update_input_folder <- function(input_path = "input") {
-  
-  
-  old_files <- system.file("boris_study/input",
-                           package = "borisBayerStudy")
-  
-  
-  dd <- file.copy(from = old_files,
-                  to = here::here(),
-                  overwrite = TRUE,
-                  recursive = TRUE)
-  
-  usethis::ui_done("Updated Input Folder of Project")
-  
+move_files <- function(from_path, to_path) {
+  # copy files from inst to initialized directory
+  r <- fs::path_expand_r(from_path) %>%
+    fs::dir_ls(recurse = FALSE, type = "file") %>%
+    purrr::map(~fs::file_copy(path = .x, new_path = to_path, overwrite = TRUE))
+  invisible(r)
 }
 
 
+
+
 verbose_build <- function(conn, sql, cohort_id, cohort_name, cohort_file) {
-  
+
   usethis::ui_info("Generating Cohort Definition {ui_value(cohort_id)} {ui_value(cohort_name)}
                    using file {ui_field(cohort_file)}")
   DatabaseConnector::executeSql(conn, sql = sql)
@@ -34,8 +24,8 @@ prep_cohort_sql <- function(cohort_sql,
                             write_schema,
                             cohort_table,
                             dialect) {
-  
-  
+
+
   sql <- SqlRender::render(sql = cohort_sql,
                            cdm_database_schema = cdm_schema,
                            vocabulary_database_schema = cdm_schema,
@@ -49,21 +39,21 @@ prep_cohort_sql <- function(cohort_sql,
                            results_database_schema.cohort_summary_stats = paste(write_schema, paste0(cohort_table, "_summary_stats"), sep="."),
                            results_database_schema.cohort_censor_stats = paste(write_schema, paste0(cohort_table, "_censor_stats"), sep="."),
                            warnOnMissingParameters = FALSE)
-  
+
   sql <- SqlRender::translate(sql = sql,
                               targetDialect = dialect,
                               tempEmulationSchema = NULL)
-  
+
 }
 
 get_cohort_counts <- function(execution_settings,
                               conn,
                               cohortId) {
-  
+
   connectionDetails <- execution_settings$connectionDetails
   write_schema <- execution_settings$write_schema
   cohort_table <- execution_settings$cohort_table
-  
+
   cohortTableFullName <- paste(write_schema, cohort_table, sep = ".")
   sql2 <- glue::glue("
   SELECT cohort_definition_id AS cohort_id,
@@ -72,7 +62,7 @@ get_cohort_counts <- function(execution_settings,
   FROM {cohortTableFullName}
   WHERE cohort_definition_id = {cohortId}
   GROUP BY cohort_definition_id;")
-  
+
   sql2 <- SqlRender::translate(sql = sql2,targetDialect = connectionDetails$dbms)
   cnt <- DatabaseConnector::dbGetQuery(conn, sql2)
   df <- data.frame(
@@ -80,7 +70,7 @@ get_cohort_counts <- function(execution_settings,
     cohort_subjects = max(cnt$cohort_subjects, 0)
   )
   return(df)
-  
+
 }
 
 ## Covariate Helpers -----------------------------------------------------

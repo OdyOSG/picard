@@ -11,14 +11,13 @@ RoxygenNote: 7.2.1
 Depends: 
     R (>= 3.5.0),
     config,
-    keyring
+    keyring,
+    usethis
 Imports: 
     CohortDiagnostics,
-    usethis,
-    magrittr,
-    CirceR,
     DatabaseConnector,
     CohortGenerator,
+    dplyr,
     CirceR,
     SqlRender,
     readr,
@@ -35,9 +34,12 @@ Collate:
     'strata.R'
     'baseline_characteristics.R'
     'buildCohorts.R'
+    'configSetup.R'
     'dbSettings.R'
     'demoSetup.R'
     'diagnostics.R'
+    'githubSetup.R'
     'ohdsi_project.R'
     'post_index_drugs.R'
-    'setup.R'
+    'utils.R'
+    'writeSchemaSetup.R'
