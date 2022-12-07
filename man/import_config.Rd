@@ -6,6 +6,9 @@
 \usage{
 import_config(path)
 }
+\arguments{
+\item{path}{the path to the config file we want to import}
+}
 \description{
 Import a config.yml file
 }

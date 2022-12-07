@@ -11,12 +11,14 @@ edit_config <- function() {
 }
 
 #' Set credentials
-#'
+#' @param configBlock the header of the configuration block that needs to be
+#' set as the active configuration
+#' @param credentials a character vector of credentials to set
 #' @export
-set_credentials <- function(database,
+set_credentials <- function(configBlock,
                          credentials = c('dbms', 'user', 'password', 'server',
                                          'port', 'cdm', 'vocab', 'write')) {
-  cred <- paste(database, credentials, sep = "_")
+  cred <- paste(configBlock, credentials, sep = "_")
 
   for (i in seq_along(cred)) {
     keyring::key_set(cred[i], prompt = paste(cred[i], ":"))
@@ -26,14 +28,16 @@ set_credentials <- function(database,
 }
 
 #' Check credentials
-#'
+#' @param configBlock the header of the configuration block that needs to be
+#' set as the active configuration
+#' @param credentials a character vector of credentials to check
 #' @export
-check_credentials <- function(database,
+check_credentials <- function(configBlock,
                               credentials = c('dbms', 'user', 'password', 'server',
                                               'port', 'cdm', 'vocab', 'write')) {
 
 
-  cred <- paste(database, credentials, sep = "_")
+  cred <- paste(configBlock, credentials, sep = "_")
 
   for (i in seq_along(cred)) {
     tmp <- purrr::safely(keyring::key_get)
@@ -67,7 +71,7 @@ check_credentials <- function(database,
 
 
 #' Import a config.yml file
-#'
+#' @param path the path to the config file we want to import
 #' @export
 import_config <- function(path) {
 
@@ -80,4 +84,10 @@ import_config <- function(path) {
     fs::file_copy(new_path = here::here(), overwrite = TRUE)
 }
 
-
+#' List config blocks to use
+#' @export
+list_config_blocks <- function() {
+  path <- here::here("config.yml")
+  config_yml <- yaml::yaml.load_file("config.yml", eval.expr = TRUE)
+  names(config_yml)[names(config_yml) != "default"]
+}

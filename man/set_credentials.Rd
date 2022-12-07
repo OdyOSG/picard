@@ -5,9 +5,15 @@
 \title{Set credentials}
 \usage{
 set_credentials(
-  database,
+  configBlock,
   credentials = c("dbms", "user", "password", "server", "port", "cdm", "vocab", "write")
 )
+}
+\arguments{
+\item{configBlock}{the header of the configuration block that needs to be
+set as the active configuration}
+
+\item{credentials}{a character vector of credentials to set}
 }
 \description{
 Set credentials

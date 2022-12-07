@@ -49,13 +49,13 @@ prep_cohort_sql <- function(cohort_sql,
 
 get_cohort_counts <- function(execution_settings,
                               conn,
-                              cohortId) {
+                              cohortId,
+                              cohortTable) {
 
   connectionDetails <- execution_settings$connectionDetails
   write_schema <- execution_settings$write_schema
-  cohort_table <- execution_settings$cohort_table
 
-  cohortTableFullName <- paste(write_schema, cohort_table, sep = ".")
+  cohortTableFullName <- paste(write_schema, cohortTable, sep = ".")
   sql2 <- glue::glue("
   SELECT cohort_definition_id AS cohort_id,
     COUNT(*) AS cohort_entries,
