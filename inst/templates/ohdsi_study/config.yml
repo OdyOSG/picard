@@ -2,7 +2,8 @@
 
 default:
   studyName: ohdsi_study
-  cohortTableName: cohorts
+  analysisCohorts: analysis_cohorts
+  diagnosticsCohorts: diagnostics_cohorts
 
 # a dummy block is added as a guide
 example:
