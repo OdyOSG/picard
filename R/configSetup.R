@@ -2,7 +2,7 @@
 #'
 #' @export
 #' @import usethis
-edit_config <- function() {
+touchConfig <- function() {
   usethis::ui_todo("Edit config.yml file adding OMOP database")
   path <- here::here("config.yml")
   usethis::edit_file(path)
@@ -10,12 +10,78 @@ edit_config <- function() {
   invisible(path)
 }
 
+
+changeConfigDefault <- function(entry = c("studyName", "analysisCohorts", "diagnosticsCohorts"),
+                                value,
+                                config_file = here::here("config.yml")) {
+  readr::read_file(config_file) %>%
+    stringr::str_replace(glue::glue("{entry}:.*"), glue::glue("{entry}: {value}")) %>%
+    readr::write_file(file = config_file)
+  ParallelLogger::logInfo("Changed default variable ", entry, " to ", value, " in config.yml")
+}
+
+#' Change study name in config.yml
+#' @param value the value to change for the study name
+#' @param config_file the config.yml file to change
+#' @export
+changeStudyName <- function(value, config_file = here::here("config.yml")) {
+  changeConfigDefault(entry = "studyName", value = value, config_file = config_file)
+}
+
+#' Change analysis cohort table name in config.yml
+#' @param value the value to change for the analysis cohort table
+#' @param config_file the config.yml file to change
+#' @export
+changeAnalysisCohorts <- function(value, config_file = here::here("config.yml")) {
+  changeConfigDefault(entry = "analysisCohorts", value = value, config_file = config_file)
+}
+
+#' Change diagnostics cohort table name in config.yml
+#' @param value the value to change for the diagnostics cohort table
+#' @param config_file the config.yml file to change
+#' @export
+changeDiagnosticsCohorts <- function(value, config_file = here::here("config.yml")) {
+  changeConfigDefault(entry = "diagnosticsCohorts", value = value, config_file = config_file)
+}
+
+#' Set credentials
+#' @param configBlock the header of the configuration block that needs to be
+#' set as the active configuration
+#' @param databaseName a character string of the database name for the config block. Default
+#' to same name as config block
+#' @param config_file the config.yml file to add a configBlock. Default to config.yml in project
+#' directory
+#' @export
+addConfigBlock <- function(configBlock,
+                           databaseName = configBlock,
+                           config_file = here::here("config.yml")) {
+
+  config_block_txt <- glue::glue(
+    "\n\n# {configBlock} Credentials
+{configBlock}:
+  databaseName: {databaseName}
+  connectionDetails: !expr DatabaseConnector::createConnectionDetails(
+    dbms = keyring::key_get('{configBlock}_dbms'),
+    user = keyring::key_get('{configBlock}_user'),
+    password = keyring::key_get('{configBlock}_password'),
+    server = keyring::key_get('{configBlock}_server'),
+    port = keyring::key_get('{configBlock}_port'))
+  cdm: !expr keyring::key_get('{configBlock}_cdm')
+  vocab: !expr keyring::key_get('{configBlock}_vocab')
+  write: !expr keyring::key_get('{configBlock}_write')
+  ")
+
+  readr::write_lines(config_block_txt, file = config_file, append = TRUE)
+  ParallelLogger::logInfo("Added configuration block for ", configBlock, " in config.yml")
+}
+
+
 #' Set credentials
 #' @param configBlock the header of the configuration block that needs to be
 #' set as the active configuration
 #' @param credentials a character vector of credentials to set
 #' @export
-set_credentials <- function(configBlock,
+setCredentials <- function(configBlock,
                          credentials = c('dbms', 'user', 'password', 'server',
                                          'port', 'cdm', 'vocab', 'write')) {
   cred <- paste(configBlock, credentials, sep = "_")
@@ -32,7 +98,7 @@ set_credentials <- function(configBlock,
 #' set as the active configuration
 #' @param credentials a character vector of credentials to check
 #' @export
-check_credentials <- function(configBlock,
+checkCredentials <- function(configBlock,
                               credentials = c('dbms', 'user', 'password', 'server',
                                               'port', 'cdm', 'vocab', 'write')) {
 
@@ -73,7 +139,7 @@ check_credentials <- function(configBlock,
 #' Import a config.yml file
 #' @param path the path to the config file we want to import
 #' @export
-import_config <- function(path) {
+importConfig <- function(path) {
 
   path_check <- fs::path_expand_r(path) %>%
     fs::path_ext()
@@ -86,8 +152,9 @@ import_config <- function(path) {
 
 #' List config blocks to use
 #' @export
-list_config_blocks <- function() {
+listConfigBlocks <- function() {
   path <- here::here("config.yml")
   config_yml <- yaml::yaml.load_file("config.yml", eval.expr = TRUE)
   names(config_yml)[names(config_yml) != "default"]
 }
+

@@ -1,3 +1,13 @@
+setupWriteSchema <- function(configBlock) {
+
+  ParallelLogger::logInfo("Initializing Cohort Tables for Diagnostics")
+  initializeCohortTables(configBlock = configBlock, type = "diagnostics")
+
+  ParallelLogger::logInfo("Initializing Cohort Tables for Analysis")
+  initializeCohortTables(configBlock = configBlock, type = "diagnostics")
+
+}
+
 
 #' Initialize cohort table
 #' @param configBlock the header of the configuration block that needs to be
@@ -73,7 +83,10 @@ dropCohortTables <- function(configBlock, type = c("analysis", "diagnostics")) {
                                           table_name =  .x))
 }
 
-
+#' Create Write Schema
+#' @param configBlock the header of the configuration block that needs to be
+#' set as the active configuration
+#' @export
 createWriteSchema <- function(configBlock) {
 
   connectionDetails <- config::get("connectionDetails", config = configBlock)
@@ -93,6 +106,10 @@ createWriteSchema <- function(configBlock) {
 
 }
 
+#' Drop Write Schema
+#' @param configBlock the header of the configuration block that needs to be
+#' set as the active configuration
+#' @export
 dropWriteSchema <- function(configBlock) {
 
   connectionDetails <- config::get("connectionDetails", config = configBlock)
