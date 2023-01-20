@@ -4,14 +4,11 @@
 \alias{initializeCohortTables}
 \title{Initialize cohort table}
 \usage{
-initializeCohortTables(configBlock, type = c("analysis", "diagnostics"))
+initializeCohortTables(configBlock)
 }
 \arguments{
 \item{configBlock}{the header of the configuration block that needs to be
 set as the active configuration}
-
-\item{type}{the type of cohort tables to use either the tables for the analysis
-or the tables for cohort diagnostics}
 }
 \description{
 Initialize cohort table

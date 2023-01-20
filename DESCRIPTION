@@ -9,27 +9,34 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Depends: 
-    R (>= 3.5.0),
-    dplyr
+    R (>= 3.5.0)
 Imports: 
     config,
     keyring,
     usethis,
-    CohortDiagnostics,
     DatabaseConnector,
-    CohortGenerator,
+    CDMConnector,
+    DBI,
+    ParallelLogger,
+    RPostgres,
+    checkmate,
+    crayon,
     dplyr,
-    CirceR,
+    dbplyr,
+    fs,
+    lubridate,
+    stringr,
+    tibble,
+    whisker,
+    yaml,
+    dplyr,
     SqlRender,
     readr,
     purrr,
     tidyr,
     glue,
-    here
-Remotes:
-    ohdsi/CirceR,
-    ohdsi/CohortDiagnostics,
-    ohdsi/CohortGenerator
+    here,
+    magrittr
 Collate: 
     'configSetup.R'
     'dbSettings.R'
