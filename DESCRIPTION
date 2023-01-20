@@ -7,7 +7,7 @@ Description: This R package helps set up and create an ohdsi study
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Depends: 
     R (>= 3.5.0),
     dplyr
@@ -31,16 +31,13 @@ Remotes:
     ohdsi/CohortDiagnostics,
     ohdsi/CohortGenerator
 Collate: 
-    'helpers.R'
-    'strata.R'
-    'baseline_characteristics.R'
-    'buildCohorts.R'
     'configSetup.R'
     'dbSettings.R'
+    'helpers.R'
     'demoSetup.R'
-    'diagnostics.R'
-    'githubSetup.R'
     'ohdsi_project.R'
-    'post_index_drugs.R'
     'utils.R'
     'writeSchemaSetup.R'
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
