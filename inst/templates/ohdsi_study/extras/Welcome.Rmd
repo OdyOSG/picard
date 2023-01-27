@@ -18,19 +18,29 @@ You have successfully initialized an ohdsi project using the picard package. Thi
 
 ## Config.yml
 
-The first step in setting up your project is editing your config.yml file. We use this file to safely pass db credentials in our connection. This file is called when we create the `executionSettings` object used throughout analysis.
+The first step in setting up your project is editing your config.yml file. The aim of the config.yml file is to safely pass db credentials in our connection. This file is called when we create the `executionSettings` object used throughout analysis. Picard package provides all the functions required for editing config.yml. These functions are mentioned below. 
 
-```{r}
-picard::edit_config()
-```
 ### Default Configuration
 
-The function above opens the config.yml file within your project. The yml file is organized in `key: value` pairs. The first row of a block defines the name of the configuration. The first block is always 'default'. This block defines global parameters that are the same for any of the remaining blocks. In the 'default' block you will see a tab to the first new `key: value` pair called studyName and a second for cohortTable Names. The 'studyName' we use to provide a name to our study. The 'cohortTableName' gives the name for the cohort table of the study and is the header for any subsequent names. The cohort tables are written to the `write_schema` an area where you as a user should have read and write access. In the open config.yml file change your studyName and cohortTableName to an appropriate name.
-
+The yml file is organized in `key: value` pairs. The first row of a block defines the name of the configuration. The first block is always 'default'. This block defines global parameters that are the same for any of the remaining blocks. In the 'default' block you will see a tab to the first new `key: value` pair called studyName and a second for cohortTable Names. The 'studyName' we use to provide a name to our study. The 'cohortTableName' gives the name for the cohort table of the study and is the header for any subsequent names. The cohort tables are written to the `write_schema` an area where you as a user should have read and write access. In the open config.yml file change your studyName and cohortTableName to an appropriate name.
 
 ### Sub-configurations
 
-The next block of the config.yml file defines the parameters for a sub-configuration. We divide all sub-blocks by databases used in your ohdsi study. If you are running a study on 3 OMOP databases where you have credentials and access, you would create 3 sub-blocks. You should provide a single word for your sub-configuration block that is distinctive. This header is what you will use when calling a configuration in `picard::execution_settings`. Within this sub-configuration, the first `key: value` pair names the database. This parameter is used for naming purposes. Create a new sub-block for each database you will use in your study. Name the header and give an appropriate database name. Finally find and replace the word 'example' with the same name as the header of the sub-block. Once you are done save, close and restart your R session to invoke the changes. 
+The next block of the config.yml file defines the parameters for a sub-configuration. We divide all sub-blocks by databases used in your ohdsi study. If you are running a study on 3 OMOP databases where you have credentials and access, you would create 3 sub-blocks. You should provide a single word for your sub-configuration block that is distinctive. This header is what you will use when calling a configuration in `picard::get_execution_settings()`. Within this sub-configuration, the first `key: value` pair names the database. This parameter is used for naming purposes. Create a new sub-block for each database you will use in your study. Name the header and give an appropriate database name. Finally find and replace the word 'example' with the same name as the header of the sub-block. Once you are done save, close and restart your R session to invoke the changes.
+
+
+```{r}
+config_block <- "choose_name"
+picard::addConfigBlock(config_block)
+```
+
+The function above adds your credentials block to the config.yml file within your project. 
+
+
+Another way to define the parameters for a sub-configuration is to import an existing config.yml file as shown in the function below.
+```{r}
+picard::importConfigBlock("<file>.yml")
+```
 
 
 ## Setting Credentials
@@ -40,13 +50,18 @@ In the config.yml there were several calls of `keyring::key_get` this is were ou
 ```{r}
 #| label: set_credentials
 #| eval: false
-config_block <- "odysseus"
-picard::set_credentials(config_block)
+
+picard::setCredentials(config_block)
 ```
 
-Running this command will create a prompt window to input your credentials. Copy and paste your credentials into each prompt for the active config_block.
+Running this command will create a prompt window to input your credentials. Copy and paste your credentials into each prompt for the active sub-configurations (config_block).
 
-We can check the credentials by running: `picard::check_credentials`.
+
+We can check the credentials for each sub-configuration by running: 
+
+```{r}
+checkCredentials(config_block) 
+```
 
 
 ### ConnectionDetails
@@ -57,9 +72,19 @@ After the databaseName, the next part of the sub-configuration is the 'connectio
 ?DatabaseConnector::createConnectionDetails
 ```
 
-### Schemas
 
 The remaining three parameters define the schemas to find information for your OHDSI project. The first schema is the cdm, this is where the OMOP cdm data is stored. The next schema is for the vocabulary, where the concept information is stored. Typically this schema is the same as the cdm schema. The last schema is the write schema. This is a place where you as a user have read and write accesss. The cdm and vocab schemas should only have read access. The write schema should be different from the schema used to store WebAPI/ATLAS data. This should be a private "scratch" schema for the user. Ask your database manager if it is possible to create one. 
+
+
+## Create execution settings
+
+The next step is to create execution sittings for each of the sub-configurations in your config.yml file. For this, you need to run `picard::get_execution_settings()` function in codeToRun.R file. As an input paratemer `picard::get_execution_settings()` use the headers of each of your sub-configurations in config.yml file. 
+
+```{r}
+database = 'sub-configuration header'
+execution_settings <- picard::get_execution_settings(database)
+```
+
 
 ## Setting up the project space
 
