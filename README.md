@@ -27,7 +27,7 @@ An example of the workflow can be seen here:
 picard::ohdsi_project("<path_to_directory")
 # if done outside of RStudio need to also create project: usethis::create_project()
 
-# Step 2: Create a configuration block for each database used inyour study:
+# Step 2: Create a configuration block for each database used in your study:
 config_block <- "<config_block>"
 picard::addConfigBlock(config_block)
 
