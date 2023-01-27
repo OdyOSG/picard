@@ -50,6 +50,7 @@ In the config.yml there were several calls of `keyring::key_get` this is were ou
 ```{r}
 #| label: set_credentials
 #| eval: false
+
 picard::setCredentials(config_block)
 ```
 
@@ -83,7 +84,6 @@ The next step is to create execution sittings for each of the sub-configurations
 database = 'sub-configuration header'
 execution_settings <- picard::get_execution_settings(database)
 ```
-
 
 
 ## Setting up the project space

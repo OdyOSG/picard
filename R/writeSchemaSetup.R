@@ -12,15 +12,10 @@ setupWriteSchema <- function(configBlock) {
 #' Initialize cohort table
 #' @param configBlock the header of the configuration block that needs to be
 #' set as the active configuration
-#' @param type the type of cohort tables to use either the tables for the analysis
-#' or the tables for cohort diagnostics
 #' @export
-initializeCohortTables <- function(configBlock, type = c("analysis", "diagnostics")) {
+initializeCohortTables <- function(configBlock) {
 
-  type <- checkmate::matchArg(type, c("analysis", "diagnostics")) %>%
-    switch(analysis = "analysisCohorts",
-           diagnostics = "diagnosticsCohorts")
-  name <- config::get(type)
+  name <- config::get("cohortTableName")
   connectionDetails <- config::get("connectionDetails", config = configBlock)
   write_schema <- config::get("write", config = configBlock)
 
@@ -50,8 +45,8 @@ drop_tbl <- function(connectionDetails,
     SqlRender::render(write_schema = write_schema,
                       table_name = table_name) %>%
     SqlRender::translate(targetDialect = connectionDetails$dbms,
-                         tempEmulationSchema = NULL) %>%
-    DatabaseConnector::executeSql(conn, .)
+                         tempEmulationSchema = NULL)
+  DatabaseConnector::executeSql(conn, sql)
   invisible(connectionDetails)
 }
 
@@ -100,8 +95,8 @@ createWriteSchema <- function(configBlock) {
     SqlRender::render(write_schema = write_schema,
                       user = connectionDetails$user()) %>%
     SqlRender::translate(targetDialect = connectionDetails$dbms,
-                         tempEmulationSchema = NULL) %>%
-    DatabaseConnector::executeSql(conn, .)
+                         tempEmulationSchema = NULL)
+  DatabaseConnector::executeSql(conn, sql)
   invisible(configBlock)
 
 }
@@ -122,8 +117,8 @@ dropWriteSchema <- function(configBlock) {
   sql <- "DROP SCHEMA IF EXISTS @write_schema CASCASE;" %>%
     SqlRender::render(write_schema = write_schema) %>%
     SqlRender::translate(targetDialect = connectionDetails$dbms,
-                         tempEmulationSchema = NULL) %>%
-    DatabaseConnector::executeSql(conn, .)
+                         tempEmulationSchema = NULL)
+  DatabaseConnector::executeSql(conn, sql)
   invisible(configBlock)
 
 }

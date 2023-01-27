@@ -1,5 +1,5 @@
 Binding: ohdsi_project
 Title: OHDSI Project Environment
-OpenFiles: Welcome.Rmd
+OpenFiles: extras/Welcome.Rmd
 Icon: ohdsiLogo.png
 

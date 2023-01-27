@@ -4,14 +4,18 @@
 #'
 #' @export
 ohdsi_project <- function(path) {
-  path <- fs::path_expand_r(path) %>%
-    fs::dir_create()
+  path <- fs::path_expand_r(path)
+  # create project directory
+  fs::dir_create(path)
+
   template_dir <- fs::path_package("picard", "templates/ohdsi_study")
+
   from <- template_dir
   to <- path
   r <- file.copy(list.files(from, full.names = TRUE),
                              to,
                              recursive = TRUE)
+
   invisible(r)
 }
 
