@@ -1,0 +1,7 @@
+userInput,badgeLink,badgeName
+1,"https://img.shields.io/badge/Study%20Status-Initialized-yellow.svg","Study Status: Initialized"
+2,"https://img.shields.io/badge/Study%20Status-Started-brightgreen.svg","Study Status: Started"
+3,"https://img.shields.io/badge/Study%20Status-Terminated-red.svg","Study Status: Terminated"
+4,"https://img.shields.io/badge/Study%20Status-Suspended-orange.svg","Study Status: Suspended"
+5,"https://img.shields.io/badge/Study%20Status-Completed-brightgreen.svg","Study Status: Completed"
+6,,

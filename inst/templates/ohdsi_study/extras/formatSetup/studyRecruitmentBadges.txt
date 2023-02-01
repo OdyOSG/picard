@@ -1,0 +1,6 @@
+userInput,badgeLink,badgeName
+1,"https://img.shields.io/badge/Recruitment%20Status-Not%20yet%20recruiting-pink.svg","Recruitment Status: Not yet recruiting"
+2,"https://img.shields.io/badge/Recruitment%20Status-Recruiting-brightgreen.svg","Recruitment Status: Recruiting"
+3,"https://img.shields.io/badge/Recruitment%20Status-Enrolling%20by%20invitation-yellowgreen.svg","Recruitment Status: Enrolling by invitation"
+4,"https://img.shields.io/badge/Recruitment%20Status-Not%20recruiting-lightgrey.svg","Recruitment Status: Not recruiting"
+5,,

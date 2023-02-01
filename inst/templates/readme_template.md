@@ -1,11 +1,21 @@
-# {{{ Project }}}
+# {{{ study_title }}}
 
 <!-- badges: start -->
-<img src="https://img.shields.io/badge/Study%20Status-Initialized-yellow.svg" alt="Study Status: Initialized"/>
+<img src="**{{{studyStatusBadge}}}**" alt="**{{{studyStatusName}}}**"/>
+<img src="**{{{recruitStatusBadge}}}**" alt="**{{{recruitStatusName}}}**"/>
 <!-- badges: end -->
 
 -   Study type: **{{{study_type}}}**
+-   Study start: **{{{study_start}}}**
 -   Study lead: **{{{author}}}**
+-   Collaborators: **{{{collaborators}}}**
+-   Technical Support: **{{{support_email}}}**
+-   Types of Data Used in the Study: **{{{data_types}}}**
+-   Publication: **{{{study_publication}}}**
+-   Results Demo: **{{{results_demo}}}**
+
+
+  
 
 # Requirements
 
