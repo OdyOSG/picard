@@ -16,9 +16,14 @@ get_driver_fn <- function(execution_settings) {
 #' @export
 executionSettings <- function(configBlock,
                               file = here::here("config.yml"),
+                              type = c("analysis", "diagnostics"),
                               connectToCdm = FALSE) {
 
   # cd <- config::get("connectionDetails", config = configBlock, file = file)
+
+  type <- checkmate::matchArg(type, c("analysis", "diagnostics")) %>%
+    switch(analysis = "analysisCohorts",
+           diagnostics = "diagnosticsCohorts")
 
   executionSettings <- structure(list(
     'connectionDetails' = config::get("connectionDetails", config = configBlock, file = file),
@@ -26,7 +31,7 @@ executionSettings <- function(configBlock,
     'cdm_schema' = config::get("cdm", config = configBlock, file = file),
     'vocabulary_schema' = config::get("vocab", config = configBlock, file = file),
     'write_schema' = config::get("write", config = configBlock, file = file),
-    'cohort_table' = config::get("cohortTableName", file = file),
+    'cohort_table' = config::get(type, file = file),
     'databaseId' = config::get("databaseName", config = configBlock, file = file),
     'studyName' = config::get("studyName", file = file)
   ), class = "executionSettings")

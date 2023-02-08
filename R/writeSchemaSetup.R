@@ -13,9 +13,12 @@ setupWriteSchema <- function(configBlock) {
 #' @param configBlock the header of the configuration block that needs to be
 #' set as the active configuration
 #' @export
-initializeCohortTables <- function(configBlock) {
+initializeCohortTables <- function(configBlock, type = c("analysis", "diagnostics")) {
 
-  name <- config::get("cohortTableName")
+  type <- checkmate::matchArg(type, c("analysis", "diagnostics")) %>%
+    switch(analysis = "analysisCohorts",
+           diagnostics = "diagnosticsCohorts")
+  name <- config::get(type)
   connectionDetails <- config::get("connectionDetails", config = configBlock)
   write_schema <- config::get("write", config = configBlock)
 
@@ -65,6 +68,7 @@ dropCohortTables <- function(configBlock, type = c("analysis", "diagnostics")) {
            diagnostics = "diagnosticsCohorts")
   connectionDetails <- config::get("connectionDetails", config = configBlock)
   write_schema <- config::get("write", config = configBlock)
+  name <- config::get(type)
 
   cohortTableNames <- list(cohortTable = name,
                            cohortInclusionTable = paste0(name, "_inclusion"),
