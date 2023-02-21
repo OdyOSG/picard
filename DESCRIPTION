@@ -37,14 +37,6 @@ Imports:
     glue,
     here,
     magrittr
-Collate: 
-    'configSetup.R'
-    'dbSettings.R'
-    'helpers.R'
-    'demoSetup.R'
-    'ohdsi_project.R'
-    'utils.R'
-    'writeSchemaSetup.R'
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
