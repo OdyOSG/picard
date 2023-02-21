@@ -76,6 +76,38 @@ addConfigBlock <- function(configBlock,
 }
 
 
+newConfigBlock <- function(path,
+                           projectName = "ohdsi_study",
+                           analysisCohorts,
+                           diagnosticsCohorts) {
+  #set config path
+  configFile <- fs::path(path, "config.yml")
+
+  #create path
+  configFile %>% fs::file_create()
+  msg <- paste("Creating a new config.yml file at:", crayon::cyan(configFile))
+  cli::cat_bullet(msg, bullet_col = "green", bullet = "tick")
+
+  #add config text
+  config_block_txt <- glue::glue(
+"# Config File for {projectName}
+\ndefault:
+  projectName: {projectName}
+  analysisCohorts: {analysisCohorts}
+  diagnosticsCohorts: {diagnosticsCohorts}
+"
+  )
+  #write lines to file
+  readr::write_lines(config_block_txt, file = configFile, append = TRUE)
+  msg <- paste("Add default info to config")
+  cli::cat_bullet(msg, bullet_col = "green", bullet = "tick")
+  cli::cat_line("\tprojectName ", crayon::cyan(projectName))
+  cli::cat_line("\tanalysisCohorts: ", crayon::cyan(analysisCohorts))
+  cli::cat_line("\tdiagnosticsCohorts: ", crayon::cyan(diagnosticsCohorts))
+
+  invisible(configFile)
+}
+
 #' Set credentials
 #' @param configBlock the header of the configuration block that needs to be
 #' set as the active configuration
@@ -139,13 +171,13 @@ checkCredentials <- function(configBlock,
 #' Import a config.yml file
 #' @param path the path to the config file we want to import
 #' @export
-importConfig <- function(path) {
+importConfigFile <- function(path) {
 
   path_check <- fs::path_expand_r(path) %>%
     fs::path_ext()
   checkmate::assert_character(path_check, pattern = "yml")
 
-  ParallelLogger::logInfo("Importing config.yml from: ", crayon::green(path))
+  cli::cat_bullet("Importing config.yml from: ", crayon::cyan(path), bullet = "tick", bullet_col = "green")
   fs::path_expand_r(path) %>%
     fs::file_copy(new_path = here::here(), overwrite = TRUE)
 }
