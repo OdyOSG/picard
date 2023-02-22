@@ -1,25 +1,37 @@
 #' Create new config.yml
-#' @param path provide a path for the
-#' @param projectName the name of the project
-#' @param analysisCohorts the name for the analysis cohort table
-#' @param diagnosticsCohorts the name for the diagnostics cohort table
+#' @param projectSpecs a picardSpecs object
 #' @export
-newConfig <- function(path,
-                      projectName,
-                      analysisCohorts,
-                      diagnosticsCohorts) {
+newConfig <- function(projectSpecs) {
   #set config path
-  configFile <- fs::path(path, "config.yml")
+  configFile <- fs::path(projectSpecs$location,
+                         projectSpecs$projectName,
+                         "config.yml")
 
-  #add config text
-  config_block_txt <- glue::glue(
-    "# Config File for {projectName}
+  projectName <- projectSpecs$projectName
+  analysisCohorts <- projectSpecs$projectName
+  if (projectSpecs$addDiagnostics){
+    diagnosticsCohorts <- paste(analysisCohorts, "diagnostics", sep = "sep")
+    #add config text
+    config_block_txt <- glue::glue(
+      "# Config File for {projectName}
 \ndefault:
   projectName: {projectName}
   analysisCohorts: {analysisCohorts}
   diagnosticsCohorts: {diagnosticsCohorts}
 "
-  )
+    )
+  } else{
+    #add config text
+    config_block_txt <- glue::glue(
+      "# Config File for {projectName}
+\ndefault:
+  projectName: {projectName}
+  analysisCohorts: {analysisCohorts}
+"
+    )
+  }
+
+
   #write lines to file
   readr::write_lines(config_block_txt, file = configFile)
   msg <- paste("Creating a new config.yml file at:", crayon::cyan(configFile))
@@ -28,8 +40,9 @@ newConfig <- function(path,
   cli::cat_bullet(msg, bullet_col = "green", bullet = "tick")
   cli::cat_line("\tprojectName ", crayon::cyan(projectName))
   cli::cat_line("\tanalysisCohorts: ", crayon::cyan(analysisCohorts))
-  cli::cat_line("\tdiagnosticsCohorts: ", crayon::cyan(diagnosticsCohorts))
-
+  if (projectSpecs$addDiagnostics){
+    cli::cat_line("\tdiagnosticsCohorts: ", crayon::cyan(diagnosticsCohorts))
+  }
   invisible(configFile)
 }
 
@@ -37,7 +50,7 @@ newConfig <- function(path,
 #' @param configBlock the configuration block in the config.yml file
 #' @param databaseName a character string of the database name for the config block. Default
 #' to same name as config block
-#' @param config_file the config.yml file to add a configBlock. Default to config.yml in project
+#' @param configFile the config.yml file to add a configBlock. Default to config.yml in project
 #' directory
 #' @export
 addConfigBlock <- function(configBlock,
@@ -77,20 +90,20 @@ touchConfig <- function() {
   invisible(path)
 }
 
+#' List config blocks to use
+#' @param configFile the config.yml file to add a configBlock. Default to config.yml in project
+#' directory
+#' @export
+listConfigBlocks <- function(configFile) {
+  config_yml <- yaml::yaml.load_file(configFile, eval.expr = TRUE)
+  names(config_yml)[names(config_yml) != "default"]
+}
 
 create_config_file <- function(projectSpecs) {
   cli::cat_bullet("Step 4: Initialize config.yml in Project",
                   bullet_col = "green", bullet = "info")
-
-  dir_path <- fs::path(projectSpecs$location, projectSpecs$projectName)
-
-  newConfig(path = dir_path,
-            projectName = projectSpecs$projectName,
-            analysisCohorts = projectSpecs$cohortTableNames$analysisCohorts,
-            diagnosticsCohorts = projectSpecs$cohortTableNames$diagnosticsCohorts)
-
-  configFile <- fs::path(dir_path, "config.yml")
-
+  configFile <- fs::path(projectSpecs$location, projectSpecs$projectName, "config.yml")
+  newConfig(projectSpecs)
   invisible(configFile)
 }
 
@@ -105,7 +118,7 @@ add_config_blocks <- function(projectSpecs){
   cli::cat_bullet("Step 5: Add Config Blocks to config.yml",
                   bullet_col = "green", bullet = "info")
 
-  config_file <- fs::path(projectSpecs$location,
+  configFile <- fs::path(projectSpecs$location,
                           projectSpecs$projectName,
                           "config.yml")
 
