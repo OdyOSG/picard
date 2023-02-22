@@ -18,7 +18,7 @@ startOhdsiProject <- function(projectSpecs) {
   create_proj_dir(projectSpecs)
 
   # Step 2: add project to directory
-  create_r_proj(projectSpecs)
+  add_r_proj(projectSpecs)
 
   # Step 3: add folders
   create_proj_folders(projectSpecs)
@@ -32,8 +32,15 @@ startOhdsiProject <- function(projectSpecs) {
   # Step 6: initialize cohort tables
   initialize_cohort_tables(projectSpecs)
 
+  # Step 7: add news file to project
+  add_news_file(projectSpecs)
 
-  #Step 7: open project
+  # Step 8: add cohort json
+  if(length(projectSpecs$cohortJson) > 0) {
+    add_cohorts(projectSpecs)
+  }
+
+  #Step 9: open project
   open_new_proj(projectSpecs)
 
 

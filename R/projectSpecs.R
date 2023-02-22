@@ -15,7 +15,14 @@ defaultCohortTableNames <- function(projectName, addDiagnostics = FALSE) {
 }
 
 defaultFolders <- function() {
-  c('input/cohortsToCreate', 'input/conceptSets', 'output', 'extras')
+  cohortFolders <- c('01_studyPop', '02_strata', '03_covariates',
+                     '04_target', '05_comparator', '06_outcome',
+                     '07_exposure', '08_diagnostics', '09_other')
+  folders <- c(
+    paste('input/cohortsToCreate', cohortFolders, sep = "/"),
+    'output', 'extras'
+  )
+  return(folders)
 }
 
 #' Function to create project specifications
@@ -33,8 +40,7 @@ projectSpecifications <- function(projectName,
                                   cohortTableNames = NULL,
                                   folders = NULL,
                                   setCredentials = FALSE,
-                                  addDiagnostics = FALSE,
-                                  openProject = TRUE) {
+                                  addDiagnostics = FALSE) {
 
   if (is.null(cohortTableNames)) {
     cohortTableNames <- defaultCohortTableNames(projectName, addDiagnostics)
@@ -56,11 +62,11 @@ projectSpecifications <- function(projectName,
       folders = folders,
       configBlocks = configBlocks,
       setCredentials = setCredentials,
-      addDiagnostics = addDiagnostics,
-      openProject = openProject
+      addDiagnostics = addDiagnostics
     ),
     class = "picardSpecs"
   )
 
 }
+
 

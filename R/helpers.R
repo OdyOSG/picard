@@ -8,8 +8,8 @@ create_proj_dir <- function(projectSpecs) {
   invisible(dir_path)
 }
 
-create_r_proj <- function(projectSpecs) {
-  cli::cat_bullet("Step 2: Initializing Project",
+add_r_proj <- function(projectSpecs) {
+  cli::cat_bullet("Step 2: Add .RProj to Directory",
                   bullet_col = "green", bullet = "info")
   dir_path <- fs::path(projectSpecs$location, projectSpecs$projectName)
   usethis::create_project(dir_path, open = FALSE)
@@ -27,9 +27,28 @@ create_proj_folders <- function(projectSpecs) {
 }
 
 open_new_proj <- function(projectSpecs) {
-  cli::cat_bullet("Step 7: Open project in new session",
+  cli::cat_bullet("Step 8: Open project in new session",
                   bullet_col = "green", bullet = "info")
   dir_path <- fs::path(projectSpecs$location, projectSpecs$projectName)
   rstudioapi::openProject(dir_path, newSession = TRUE)
   invisible(dir_path)
 }
+
+
+add_news_file <- function(projectSpecs) {
+  cli::cat_bullet("Step 7: Add news file to prpoject",
+                  bullet_col = "green", bullet = "info")
+  vv <- paste(projectSpecs$projectName, "0.0.1")
+  txt <- c(
+    vv, "",
+    "==========================",
+    "",
+    "-   Initialize ohdsi project",
+    "-   Setup config.yml file",
+    "-   Initialize cohort tables"
+  )
+  filePath <- fs::path(projectSpecs$location, projectSpecs$projectName, "NEWS.md")
+  readr::write_lines(txt, file = filePath)
+  invisible(txt)
+}
+
