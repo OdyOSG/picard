@@ -4,13 +4,20 @@
 \alias{initializeCohortTables}
 \title{Initialize cohort table}
 \usage{
-initializeCohortTables(configBlock, type = c("analysis", "diagnostics"))
+initializeCohortTables(
+  configBlock,
+  type = c("analysis", "diagnostics"),
+  configFile = here::here("config.yml")
+)
 }
 \arguments{
-\item{configBlock}{the header of the configuration block that needs to be}
+\item{configBlock}{the configuration block in the config.yml file}
 
 \item{type}{choose type of tables to initialize either analysis or diagnostics
 set as the active configuration}
+
+\item{configFile}{the config.yml file to add a configBlock. Default to config.yml in project
+directory}
 }
 \description{
 Initialize cohort table

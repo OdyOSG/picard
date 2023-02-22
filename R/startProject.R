@@ -32,8 +32,10 @@ startOhdsiProject <- function(projectSpecs) {
   # Step 6: initialize cohort tables
   initialize_cohort_tables(projectSpecs)
 
+
   #Step 7: open project
   open_new_proj(projectSpecs)
+
 
   invisible(projectSpecs)
 

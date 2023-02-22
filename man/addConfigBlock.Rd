@@ -7,17 +7,16 @@
 addConfigBlock(
   configBlock,
   databaseName = configBlock,
-  config_file = here::here("config.yml")
+  configFile = here::here("config.yml")
 )
 }
 \arguments{
-\item{configBlock}{the header of the configuration block that needs to be
-set as the active configuration}
+\item{configBlock}{the configuration block in the config.yml file}
 
 \item{databaseName}{a character string of the database name for the config block. Default
 to same name as config block}
 
-\item{config_file}{the config.yml file to add a configBlock. Default to config.yml in project
+\item{configFile}{the config.yml file to add a configBlock. Default to config.yml in project
 directory}
 }
 \description{

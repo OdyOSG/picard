@@ -10,7 +10,8 @@ projectSpecifications(
   configBlocks = NULL,
   cohortTableNames = NULL,
   folders = NULL,
-  setCredentials = FALSE
+  setCredentials = FALSE,
+  addDiagnostics = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ projectSpecifications(
 \item{folders}{specify the set of folders to create in the project}
 
 \item{setCredentials}{specify whether to set Credentials}
+
+\item{addDiagnostics}{specify whether analysis includes diagnostics}
 }
 \description{
 Function to create project specifications

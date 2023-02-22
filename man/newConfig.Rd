@@ -4,16 +4,10 @@
 \alias{newConfig}
 \title{Create new config.yml}
 \usage{
-newConfig(path, projectName, analysisCohorts, diagnosticsCohorts)
+newConfig(projectSpecs)
 }
 \arguments{
-\item{path}{provide a path for the}
-
-\item{projectName}{the name of the project}
-
-\item{analysisCohorts}{the name for the analysis cohort table}
-
-\item{diagnosticsCohorts}{the name for the diagnostics cohort table}
+\item{projectSpecs}{a picardSpecs object}
 }
 \description{
 Create new config.yml
