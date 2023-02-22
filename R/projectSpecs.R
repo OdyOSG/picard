@@ -1,11 +1,17 @@
 
 
 
-defaultCohortTableNames <- function(projectName) {
-  list(
-    analysisCohorts = projectName,
-    diagnosticsCohorts = paste(projectName, "diagnostics", sep = "_")
-  )
+defaultCohortTableNames <- function(projectName, addDiagnostics = FALSE) {
+  if (addDiagnostics) {
+    list(
+      analysisCohorts = projectName,
+      diagnosticsCohorts = paste(projectName, "diagnostics", sep = "_")
+    )
+  } else{
+    list(
+      analysisCohorts = projectName
+    )
+  }
 }
 
 defaultFolders <- function() {
@@ -19,16 +25,19 @@ defaultFolders <- function() {
 #' @param cohortTableNames specify the cohort table names
 #' @param folders specify the set of folders to create in the project
 #' @param setCredentials specify whether to set Credentials
+#' @param addDiagnostics specify whether analysis includes diagnostics
 #' @export
 projectSpecifications <- function(projectName,
                                   path = here::here(),
                                   configBlocks = NULL,
                                   cohortTableNames = NULL,
                                   folders = NULL,
-                                  setCredentials = FALSE) {
+                                  setCredentials = FALSE,
+                                  addDiagnostics = FALSE,
+                                  openProject = TRUE) {
 
   if (is.null(cohortTableNames)) {
-    cohortTableNames <- defaultCohortTableNames(projectName)
+    cohortTableNames <- defaultCohortTableNames(projectName, addDiagnostics)
   }
 
   if (is.null(folders)) {
@@ -46,7 +55,9 @@ projectSpecifications <- function(projectName,
       cohortTableNames = cohortTableNames,
       folders = folders,
       configBlocks = configBlocks,
-      setCredentials = setCredentials
+      setCredentials = setCredentials,
+      addDiagnostics = addDiagnostics,
+      openProject = openProject
     ),
     class = "picardSpecs"
   )
