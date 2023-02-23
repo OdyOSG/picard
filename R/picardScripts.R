@@ -90,10 +90,7 @@ newPipelineTask <- function(scriptName,
   sourceScriptFile <- paste0("_", scriptName, ".R")
   r_int_dir <- fs::path(path, "R/internals")
   if (!fs::dir_exists(r_int_dir)) {
-    fs::dir_create(r_int_dir)
-    cli::cat_bullet("Created Directory: ", crayon::cyan(r_int_dir),
-                    bullet = "tick",
-                    bullet_col = "green")
+    addFolder("internals", directory = "R")
   }
   fs::path(r_int_dir, sourceScriptFile) %>%
     fs::file_create()
@@ -104,11 +101,7 @@ newPipelineTask <- function(scriptName,
 
 
   # create output folder
-  outputFolder <- fs::path(path, "output", paste(taskNumber, scriptName, sep = "_"))
-  fs::dir_create(outputFolder)
-  cli::cat_bullet("Created Directory: ", crayon::cyan(outputFolder),
-                  bullet = "tick",
-                  bullet_col = "green")
+  picard::addFolder(folderName = paste(taskNumber, scriptName, sep = "_"), directory = "output")
 
   #create the source file for script
   sourceFile <- fs::path("R/internals", sourceScriptFile)
