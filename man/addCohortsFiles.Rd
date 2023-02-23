@@ -8,7 +8,6 @@ addCohortsFiles(
   type = c("studyPop", "strata", "covariates", "target", "comparator", "outcome",
     "exposure", "diagnostics", "other"),
   files,
-  capr = NULL,
   cohortFolder = here::here("input/cohortsToCreate")
 )
 }
@@ -16,8 +15,6 @@ addCohortsFiles(
 \item{type}{the type of subfolder to add for cohorts in the project}
 
 \item{files}{a set of json files to move into the input/cohortsToCreate folder of the project}
-
-\item{capr}{a list of capr objects to upload into the input/cohortsToCreate folder of the project}
 
 \item{cohortFolder}{the input/cohortsToCreate folder to save the cohorts, defaults to the folder
 within the active project binding}
