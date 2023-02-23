@@ -1,12 +1,23 @@
-test_that("Ohdsi project initializes", {
+test_that("Can build a picard project", {
 
-  #check that yml file is creates
-  tst <- fs::dir_ls(proj_root, glob = "*.yml")
-  expect_true(grepl("config", tst))
+  projectSpecs <- projectSpecifications(projectName = "test",
+                                        path = fs::file_temp(),
+                                        openProject = FALSE,
+                                        configBlocks = "test")
 
-  #TODO check that Rproj works
-  # nm <- paste0(basename(proj_root), ".Rproj")
-  # expect_true(file.exists(file.path(proj_root, nm)))
+  # Step 1: create project directory
+  create_proj_dir(projectSpecs)
+  dir_test <- fs::path(projectSpecs$location, projectSpecs$projectName)
+  expect_true(fs::dir_exists(dir_test))
 
+  # Step 3: add folders
+  create_proj_folders(projectSpecs)
+  dir_test <- fs::path(projectSpecs$location, projectSpecs$projectName, "input")
+  expect_true(fs::dir_exists(dir_test))
+
+  #Step 4: create config file
+  create_config_file(projectSpecs)
+  config_test <- fs::path(projectSpecs$location, projectSpecs$projectName, "config.yml")
+  expect_equal("test", config::get("projectName", file = config_test))
 
 })

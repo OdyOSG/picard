@@ -1,11 +1,3 @@
-get_driver_fn <- function(execution_settings) {
-  #determine the correct driver either postgres or redshift
-  driver <- execution_settings$connectionDetails$dbms
-  drv <- switch(driver,
-                postgresql = RPostgres::Postgres,
-                redshift = RPostgres::Redshift)
-  return(drv)
-}
 
 #' Retrieve execution settings from config.yml file
 #'
