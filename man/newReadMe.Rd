@@ -4,13 +4,15 @@
 \alias{newReadMe}
 \title{Create a new README file for the project}
 \usage{
-newReadMe(title, ..., path = here::here())
+newReadMe(title, ..., openFile = TRUE, path = here::here())
 }
 \arguments{
 \item{title}{the name of your project}
 
 \item{...}{a list of additional inputs used to describe your project. Names of inputs
 must appear in snakecase. For example study_type = "Characterization"}
+
+\item{openFile}{a T/F toggle specifying whether to open file in Rstudio}
 
 \item{path}{the path to write the readme file, default is active project}
 }
