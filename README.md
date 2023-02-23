@@ -114,7 +114,7 @@ condition_covariates <- function(concept_path) {
   #set up
   name <- tools::file_path_sans_ext(basename(concept_path))
   conceptSet <- Capr::readConceptSet(path = concept_path, name = name)
-  
+  #capr template
   cd <- cohort(
     entry = entry(
       condition(conceptSet),
