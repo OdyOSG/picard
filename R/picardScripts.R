@@ -95,13 +95,8 @@ newPipelineTask <- function(scriptName,
     crayon::green(sourceScriptFile), " generated at ", crayon::cyan(dirname(sourceFilePath)),
     bullet = "tick", bullet_col = "green"
   )
-
   # create output folder
-  outputFolder <- fs::path(path, "output", paste(taskNumber, scriptName, sep = "_"))
-  fs::dir_create(outputFolder)
-  cli::cat_bullet("Created Directory: ", crayon::cyan(outputFolder),
-                  bullet = "tick",
-                  bullet_col = "green")
+  picard::addFolder(folderName = paste(taskNumber, scriptName, sep = "_"), directory = "output")
 
   #create the source file for script
   sourceFile <- fs::path("R/", sourceScriptFile)

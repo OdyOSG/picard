@@ -69,4 +69,22 @@ projectSpecifications <- function(projectName,
 
 }
 
+#'Function to add a folder
+#' @param folderName name of new folder
+#' @param directory the project directory to add. Must be one of R, output, input or extras
+#' @param path the path to write the new folder, default is the active project
+#' @export
+addFolder <- function(folderName,
+                      directory = c("R", "output", "input", "extras"),
+                      path = here::here()) {
 
+  directory <- checkmate::matchArg(directory,
+                                   c("R", "output", "input", "extras"))
+
+  newFolder <- fs::path(path, directory, folderName)
+  fs::dir_create(newFolder)
+  cli::cat_bullet("Created Folder: ", crayon::cyan(folderName),
+                  " in ", crayon::magenta(fs::path(path, directory)),
+                  bullet = "tick",
+                  bullet_col = "green")
+}

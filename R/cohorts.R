@@ -132,14 +132,14 @@ getWebApiCohortInfo <- function(cohortId, baseUrl) {
 #' within the active project binding
 #' @export
 addCohortsWebApi <- function(type = c('studyPop', 'strata', 'covariates',
-                                      'target', 'comparator', 'outcome',
-                                      'exposure', 'diagnostics', 'other'),
-                             cohortIds,
-                             webApiBaseUrl = Sys.getenv("WEBAPI_URL"),
-                             webApiAuthMethod = Sys.getenv("WEBAPI_AUTHMETHOD"),
-                             webApiUser = Sys.getenv("WEBAPI_USERNAME"),
-                             webApiPassword = Sys.getenv("WEBAPI_PASSWORD"),
-                             cohortFolder = here::here("input/cohortsToCreate")) {
+                                   'target', 'comparator', 'outcome',
+                                   'exposure', 'diagnostics', 'other'),
+                          cohortIds,
+                          webApiBaseUrl = Sys.getenv("WEBAPI_URL"),
+                          webApiAuthMethod = Sys.getenv("WEBAPI_AUTHMETHOD"),
+                          webApiUser = Sys.getenv("WEBAPI_USERNAME"),
+                          webApiPassword = Sys.getenv("WEBAPI_PASSWORD"),
+                          cohortFolder = here::here("input/cohortsToCreate")) {
 
   # Check WebApi Credentials
   if (webApiBaseUrl == "") {
