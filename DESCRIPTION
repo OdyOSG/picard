@@ -1,6 +1,6 @@
 Package: picard
 Title: OHDSI Study Developer Tool
-Version: 0.0.2
+Version: 1.0.0
 Authors@R: 
     person("Martin", "Lavallee", , "martin.lavallee@odysseusinc.com", role = c("aut", "cre"))
 Description: This R package helps set up and create an ohdsi study
@@ -38,5 +38,8 @@ Imports:
     here,
     magrittr
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
