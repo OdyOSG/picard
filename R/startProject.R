@@ -35,12 +35,7 @@ startOhdsiProject <- function(projectSpecs) {
   # Step 7: add news file to project
   add_news_file(projectSpecs)
 
-  # Step 8: add cohort json
-  if(length(projectSpecs$cohortJson) > 0) {
-    add_cohorts(projectSpecs)
-  }
-
-  #Step 9: open project
+  #Step 8: open project
   open_new_proj(projectSpecs)
 
 
