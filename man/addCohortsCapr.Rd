@@ -2,37 +2,24 @@
 % Please edit documentation in R/cohorts.R
 \name{addCohortsCapr}
 \alias{addCohortsCapr}
-\title{Add cohorts that are json files to ohdsi project}
+\title{Add capr cohorts to an ohdsi project}
 \usage{
 addCohortsCapr(
   type = c("studyPop", "strata", "covariates", "target", "comparator", "outcome",
     "exposure", "diagnostics", "other"),
-  atlasId,
-  cohortFolder = here::here("input/cohortsToCreate")
-)
-
-addCohortsCapr(
-  type = c("studyPop", "strata", "covariates", "target", "comparator", "outcome",
-    "exposure", "diagnostics", "other"),
-  atlasId,
+  caprList,
   cohortFolder = here::here("input/cohortsToCreate")
 )
 }
 \arguments{
 \item{type}{the type of subfolder to add for cohorts in the project}
 
-\item{atlasId}{a vector of atlas ids used to identify the cohorts to upload
-into the input/cohortsToCreate folder of the project}
+\item{caprList}{a list of capr objects to upload into the input/cohortsToCreate folder of the project}
 
 \item{cohortFolder}{the input/cohortsToCreate folder to save the cohorts, defaults to the folder
 within the active project binding}
-
-\item{...}{a list of capr objects to upload into the input/cohortsToCreate folder of the project}
 }
 \description{
-This function adds cohort json files to a subfolder in input/cohortsToCreate.
-The subfolder is specified by the type.
-
-This function adds cohort jsons from ATLAS to a subfolder in input/cohortsToCreate.
+This function adds capr cohorts to a subfolder in input/cohortsToCreate.
 The subfolder is specified by the type.
 }

@@ -7,8 +7,7 @@
 executionSettings(
   configBlock,
   file = here::here("config.yml"),
-  type = c("analysis", "diagnostics"),
-  connectToCdm = FALSE
+  type = c("analysis", "diagnostics")
 )
 }
 \arguments{
@@ -16,7 +15,7 @@ executionSettings(
 
 \item{file}{the path to the config yml file}
 
-\item{connectToCdm}{toggle whether to connect to cdm}
+\item{type}{eiter the analysis or diagnostics}
 }
 \description{
 Retrieve execution settings from config.yml file
