@@ -21,11 +21,6 @@ knitr::opts_chunk$set(
 `picard` is a workflow package that helps initialize and facilitate an OHDSI project by automating start-up tasks and setting basic organization. It draws inspiration from [`usethis`](https://usethis.r-lib.org/) but designed specifically for OHDSI projects.
 
 
-```{r setup}
-library(picard)
-```
-
-
 # How To Use
 
 ## Getting Started
@@ -87,7 +82,7 @@ newRScript(
 )
 ```
 
-Sometimes tasks can be part of a pipeline where a single script is not enough. `picard` supplies a function to add an element to your pipeline, shown below. This function takes on the name of the script, the task number, meta information and dependencies. It will create the R script, labelled in a pipelining format (i.e. 01_BuildCohorts.R). It will also create an R script for internal functions (labeled as \_BuildCohorts.R, for example) and a subfolder in the output directory (labelled in a pipeline format output/01_BuildCohorts).
+Sometimes tasks can be part of a pipeline where a single script is not enough. `picard` supplies a function to add an element to your pipeline, shown below. This function takes on the name of the script, the task number, meta information and dependencies. It will create the R script, labelled in a pipelining format (i.e. 01_BuildCohorts.R). It will also create an R script for internal functions (labeled as `_BuildCohorts.R`, for example) and a subfolder in the output directory (labelled in a pipeline format output/01_BuildCohorts).
 
 ```{r addRPipeline}
 newPipelineTask(
