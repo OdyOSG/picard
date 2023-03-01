@@ -86,22 +86,15 @@ newPipelineTask <- function(scriptName,
   taskNumber <- scales::label_number(prefix = "0")(taskNumber)
   pipelineNm <- paste(taskNumber, paste0(scriptName, ".R"), sep = "_")
 
-  #create internals file
+  #create internal file
   sourceScriptFile <- paste0("_", scriptName, ".R")
-  r_int_dir <- fs::path(path, "R/internals")
-  if (!fs::dir_exists(r_int_dir)) {
-    fs::dir_create(r_int_dir)
-    cli::cat_bullet("Created Directory: ", crayon::cyan(r_int_dir),
-                    bullet = "tick",
-                    bullet_col = "green")
-  }
-  fs::path(r_int_dir, sourceScriptFile) %>%
-    fs::file_create()
-  cli::cat_bullet("Created File: ", crayon::green(fs::path(r_int_dir, sourceScriptFile)),
-                  bullet = "tick",
-                  bullet_col = "green")
-
-
+  txt_internals <- glue::glue("# Internal functions for {scriptName} -------")
+  sourceFilePath <- fs::path(path, "R", sourceScriptFile)
+  readr::write_lines(txt_internals, file = sourceFilePath)
+  cli::cat_bullet(
+    crayon::green(sourceScriptFile), " generated at ", crayon::cyan(dirname(sourceFilePath)),
+    bullet = "tick", bullet_col = "green"
+  )
 
   # create output folder
   outputFolder <- fs::path(path, "output", paste(taskNumber, scriptName, sep = "_"))
@@ -111,7 +104,7 @@ newPipelineTask <- function(scriptName,
                   bullet_col = "green")
 
   #create the source file for script
-  sourceFile <- fs::path("R/internals", sourceScriptFile)
+  sourceFile <- fs::path("R/", sourceScriptFile)
   source_internals <- glue::glue("source('{sourceFile}')")
 
   #create outputFolder assignment for script
@@ -137,4 +130,41 @@ newPipelineTask <- function(scriptName,
   invisible(txt)
 
 
+}
+
+#' check pipeline order
+#' @param path the path to write the R file, default is the active project
+#' @export
+checkPipelineOrder <- function(path = here::here()) {
+  ff <- fs::path(path, "R") %>%
+    fs::dir_ls()
+  check <- startsWith(basename(ff), "_")
+  ff2 <- ff[!check]
+  basename(ff2)
+}
+
+#' Import pipeline task using vault
+#' @param taskNumber the task number in the pipeline
+#' @param vaultString a string for the vault specified as '<org>/<repo>'
+#' @param item the vault item to import into the project
+#' @param path the path to write the R file, default is the active project
+#' @export
+importPipelineTask <- function(taskNumber,
+                               vaultString,
+                               item,
+                               path = here::here()) {
+  taskNumber <- scales::label_number(prefix = "0")(taskNumber)
+  pipelineNm <- paste(taskNumber, paste0(item, ".R"), sep = "_")
+  savePath <- fs::path(path, "R")
+  vv <- vault::vault(vaultString, savePath = savePath)
+  tt <- purrr::quietly(vault::checkout)(vv, item = item, openFile = FALSE)
+  oldFile <- fs::path(savePath, tt, ext = "R")
+  newFile <- fs::path(savePath, pipelineNm)
+  fs::file_move(oldFile, newFile)
+  cli::cat_bullet("Imported ", crayon::green(pipelineNm), " from ",
+                  crayon::magenta(vaultString),
+                  bullet = "tick", bullet_col = "green")
+  cli::cat_bullet("Saved ", crayon::green(pipelineNm), " to ",
+                  crayon::cyan(savePath),
+                  bullet = "tick", bullet_col = "green")
 }
