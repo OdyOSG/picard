@@ -2,7 +2,6 @@ test_that("Can build a picard project", {
 
   projectSpecs <- projectSpecifications(projectName = "test",
                                         path = fs::file_temp(),
-                                        openProject = FALSE,
                                         configBlocks = "test")
 
   # Step 1: create project directory

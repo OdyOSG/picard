@@ -1,9 +1,9 @@
 Package: picard
 Title: OHDSI Study Developer Tool
-Version: 0.0.2
+Version: 1.0.0
 Authors@R: 
     person("Martin", "Lavallee", , "martin.lavallee@odysseusinc.com", role = c("aut", "cre"))
-Description: This R package helps set up and create an ohdsi study
+Description: This R package helps set up and create an ohdsi study.
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -14,29 +14,36 @@ Imports:
     config,
     keyring,
     usethis,
-    DatabaseConnector,
-    CDMConnector,
-    DBI,
-    ParallelLogger,
-    RPostgres,
+    cli,
+    htmltools,
+    rlang,
+    rstudioapi,
+    snakecase,
+    scales,
     checkmate,
     crayon,
     dplyr,
-    dbplyr,
     fs,
     lubridate,
     stringr,
     tibble,
     whisker,
     yaml,
-    dplyr,
-    SqlRender,
     readr,
     purrr,
     tidyr,
     glue,
     here,
+    vault,
     magrittr
 Suggests: 
+    knitr,
+    rmarkdown,
+    RPostgres,
+    SqlRender,
+    dbplyr,
     testthat (>= 3.0.0)
+Remotes:
+    odyosg/CirceR
+VignetteBuilder: knitr
 Config/testthat/edition: 3

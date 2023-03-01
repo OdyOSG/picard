@@ -3,13 +3,11 @@
 #'
 #' @param configBlock the configBlock id corresponding to the config.yml file
 #' @param file the path to the config yml file
-#' @param connectToCdm toggle whether to connect to cdm
-#'
+#' @param type eiter the analysis or diagnostics
 #' @export
 executionSettings <- function(configBlock,
                               file = here::here("config.yml"),
-                              type = c("analysis", "diagnostics"),
-                              connectToCdm = FALSE) {
+                              type = c("analysis", "diagnostics")) {
 
   # cd <- config::get("connectionDetails", config = configBlock, file = file)
 
@@ -27,25 +25,6 @@ executionSettings <- function(configBlock,
     'databaseId' = config::get("databaseName", config = configBlock, file = file),
     'studyName' = config::get("studyName", file = file)
   ), class = "executionSettings")
-
-  if (connectToCdm) {
-
-    fn <- get_driver_fn(executionSettings)
-    con <- DBI::dbConnect(
-      fn(),
-      host     = strsplit(executionSettings$connectionDetails$server(), "/")[[1]][[1]],
-      dbname   = strsplit(executionSettings$connectionDetails$server(), "/")[[1]][[2]],
-      user     = executionSettings$connectionDetails$user(),
-      password = executionSettings$connectionDetails$password(),
-      port     = executionSettings$connectionDetails$port()
-    )
-
-    executionSettings$cdm <- CDMConnector::cdm_from_con(con,
-                                      cdm_schema = executionSettings$cdm_schema,
-                                      cdm_tables = CDMConnector::tbl_group("default"),
-                                      write_schema = executionSettings$write_schema,
-                                      cohort_tables = executionSettings$cohort_table)
-    }
 
 
   return(executionSettings)

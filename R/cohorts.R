@@ -177,9 +177,9 @@ addCohortsWebApi <- function(type = c('studyPop', 'strata', 'covariates',
 
   #authorize webapi
   ss <- purrr::safely(ROhdsiWebApi::authorizeWebApi)(webApiBaseUrl,
-                                authMethod = webApiAuthMethod,
-                                webApiUsername = webApiUser,
-                                webApiPassword = webApiPassword)
+                                                     authMethod = webApiAuthMethod,
+                                                     webApiUsername = webApiUser,
+                                                     webApiPassword = webApiPassword)
   if (is.null(ss$error)) {
     cli::cat_bullet("Authorized Connection to WebApi", bullet = "tick",
                     bullet_col = "green")
@@ -187,7 +187,7 @@ addCohortsWebApi <- function(type = c('studyPop', 'strata', 'covariates',
     cohortNames <- purrr::map_chr(cohortIds, ~getWebApiCohortInfo(.x, baseUrl = webApiBaseUrl)) %>%
       gsub("\\s", "_", .)
     json <- purrr::map(cohortIds,
-      ~getWebApiCohortJson(cohortId = .x, baseUrl = webApiBaseUrl))
+                       ~getWebApiCohortJson(cohortId = .x, baseUrl = webApiBaseUrl))
 
     cohortFile <- fs::path(folderName, cohortNames, ext = "json")
     purrr::walk2(json, cohortFile,
