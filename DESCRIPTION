@@ -43,7 +43,5 @@ Suggests:
     SqlRender,
     dbplyr,
     testthat (>= 3.0.0)
-Remotes:
-    odyosg/CirceR
 VignetteBuilder: knitr
 Config/testthat/edition: 3
