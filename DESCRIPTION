@@ -1,6 +1,6 @@
 Package: picard
 Title: OHDSI Study Developer Tool
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     person("Martin", "Lavallee", , "martin.lavallee@odysseusinc.com", role = c("aut", "cre"))
 Description: This R package helps set up and create an ohdsi study.

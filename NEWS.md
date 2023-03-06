@@ -1,3 +1,8 @@
+# picard 1.0.1
+-  Patch for adding function to update NEWS.md
+-  Fix bug in description file preventing `devtools::install_github`
+-  Fix bug in `picard::importPipelineTask`
+
 # picard 1.0.0
 
 -   Initial Release of picard

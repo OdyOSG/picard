@@ -175,3 +175,34 @@ updateVocabularyVersion <- function(version,
                   crayon::cyan(version), bullet = "tick", bullet_col = "green")
   invisible(readme)
 }
+
+#' Update project news
+#' @param version of the picard project
+#' @param ... a list of commits or changes that lead to a new version
+#' @param path the path to write the readme file, default is active project
+#' @param openFile a T/F toggle specifying whether to open file in Rstudio
+#' @export
+updateNews <- function(version,
+                       ...,
+                       path = here::here(),
+                       openFile = FALSE){
+
+  filePath <- fs::path(path, "NEWS.md")
+  news <- readr::read_lines(filePath)
+  projName <- basename(path)
+  versionTitle <- glue::glue("## {projName} {version}")
+  updateText <- rlang::list2(...) %>%
+    purrr::map(~paste0("-   ", .x))
+  txt <- c(versionTitle, "", updateText,
+           "\n", news)
+  readr::write_lines(txt, file = filePath)
+  cli::cat_bullet("Update NEWS.md now on version: ",
+                  crayon::cyan(version), bullet = "tick", bullet_col = "green")
+
+  #open file
+  if (openFile) {
+    rstudioapi::navigateToFile(filePath)
+  }
+
+  invisible(txt)
+}
