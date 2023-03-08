@@ -27,7 +27,7 @@ create_proj_folders <- function(projectSpecs) {
 }
 
 open_new_proj <- function(projectSpecs) {
-  cli::cat_bullet("Step 8: Open project in new session",
+  cli::cat_bullet("Open project in new session",
                   bullet_col = "green", bullet = "info")
   dir_path <- fs::path(projectSpecs$location, projectSpecs$projectName)
   rstudioapi::openProject(dir_path, newSession = TRUE)
