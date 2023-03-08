@@ -15,8 +15,6 @@ cohortTableNames <- function(type,
                       config = "default",
                       file = configFile)
 
-  name <- executionSettings$cohort_table
-
   ll <- list(cohortTable = name,
        cohortInclusionTable = paste0(name, "_inclusion"),
        cohortInclusionResultTable = paste0(name, "_inclusion_result"),
@@ -36,10 +34,6 @@ cohortTableNames <- function(type,
 initializeCohortTables <- function(configBlock,
                                    type = c("analysis", "diagnostics"),
                                    configFile = here::here("config.yml")) {
-
-  type <- checkmate::matchArg(type, c("analysis", "diagnostics")) %>%
-    switch(analysis = "analysisCohorts",
-           diagnostics = "diagnosticsCohorts")
 
   cohortTableNames <- cohortTableNames(type = type, configFile = configFile)
 
@@ -88,10 +82,6 @@ drop_tbl <- function(connectionDetails,
 #' @export
 dropCohortTables <- function(configBlock, type = c("analysis", "diagnostics"),
                              configFile = here::here("config.yml")) {
-
-  type <- checkmate::matchArg(type, c("analysis", "diagnostics")) %>%
-    switch(analysis = "analysisCohorts",
-           diagnostics = "diagnosticsCohorts")
 
   cohortTableNames <- cohortTableNames(type = type, configFile = configFile)
 

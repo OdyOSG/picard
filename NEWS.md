@@ -2,6 +2,7 @@
 - Patch adding a demo project function
 - fix bug in creating diagnostic cohorts table
 - fix bug in initialization of NEWS.md
+- add function to list cohortTableNames
 
 # picard 1.0.1
 -  Patch for adding function to update NEWS.md
