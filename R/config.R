@@ -10,7 +10,7 @@ newConfig <- function(projectSpecs) {
   projectName <- projectSpecs$projectName
   analysisCohorts <- projectSpecs$projectName
   if (projectSpecs$addDiagnostics){
-    diagnosticsCohorts <- paste(analysisCohorts, "diagnostics", sep = "sep")
+    diagnosticsCohorts <- paste(analysisCohorts, "diagnostics", sep = "_")
     #add config text
     config_block_txt <- glue::glue(
       "# Config File for {projectName}
