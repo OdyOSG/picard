@@ -50,7 +50,7 @@ startDemoProject <- function(path, configBlock) {
   #Step 0: Set project specs for demo
 
   projectSpecs <- picard::projectSpecifications(
-    projectName = "demo",
+    projectName = "demo_picard",
     path = path,
     configBlocks = configBlock,
     addDiagnostics = TRUE
