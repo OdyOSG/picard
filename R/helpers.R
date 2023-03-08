@@ -38,8 +38,7 @@ open_new_proj <- function(projectSpecs) {
 add_news_file <- function(projectSpecs) {
   cli::cat_bullet("Step 7: Add news file to project",
                   bullet_col = "green", bullet = "info")
-  vv <- paste(projectSpecs$projectName,
-              "0.0.1\n==========================")
+  vv <- glue::glue("## {projectSpecs$projectName} 0.0.1")
   txt <- c(
     vv,
     "-   Initialize ohdsi project",
