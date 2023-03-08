@@ -1,3 +1,31 @@
+#' Get cohort table names
+#' @param type choose type of tables to initialize either analysis or diagnostics
+#' set as the active configuration
+#' @param configFile the config.yml file to add a configBlock. Default to config.yml in project
+#' directory
+#' @export
+cohortTableNames <- function(type,
+                             configFile = here::here("config.yml")) {
+
+  type <- checkmate::matchArg(type, c("analysis", "diagnostics")) %>%
+    switch(analysis = "analysisCohorts",
+           diagnostics = "diagnosticsCohorts")
+
+  name <- config::get(type,
+                      config = "default",
+                      file = configFile)
+
+  name <- executionSettings$cohort_table
+
+  ll <- list(cohortTable = name,
+       cohortInclusionTable = paste0(name, "_inclusion"),
+       cohortInclusionResultTable = paste0(name, "_inclusion_result"),
+       cohortInclusionStatsTable = paste0(name, "_inclusion_stats"),
+       cohortSummaryStatsTable = paste0(name, "_summary_stats"),
+       cohortCensorStatsTable = paste0(name, "_censor_stats"))
+  return(ll)
+}
+
 #' Initialize cohort table
 #' @param configBlock the configuration block in the config.yml file
 #' @param type choose type of tables to initialize either analysis or diagnostics
@@ -13,9 +41,8 @@ initializeCohortTables <- function(configBlock,
     switch(analysis = "analysisCohorts",
            diagnostics = "diagnosticsCohorts")
 
-  name <- config::get(type,
-                      config = configBlock,
-                      file = configFile)
+  cohortTableNames <- cohortTableNames(type = type, configFile = configFile)
+
 
   connectionDetails <- config::get("connectionDetails",
                                    config = configBlock,
@@ -25,12 +52,7 @@ initializeCohortTables <- function(configBlock,
                               config = configBlock,
                               file = configFile)
 
-  cohortTableNames <- list(cohortTable = name,
-                           cohortInclusionTable = paste0(name, "_inclusion"),
-                           cohortInclusionResultTable = paste0(name, "_inclusion_result"),
-                           cohortInclusionStatsTable = paste0(name, "_inclusion_stats"),
-                           cohortSummaryStatsTable = paste0(name, "_summary_stats"),
-                           cohortCensorStatsTable = paste0(name, "_censor_stats"))
+
 
   CohortGenerator::createCohortTables(connectionDetails = connectionDetails,
                                       cohortDatabaseSchema = write_schema,
@@ -71,9 +93,7 @@ dropCohortTables <- function(configBlock, type = c("analysis", "diagnostics"),
     switch(analysis = "analysisCohorts",
            diagnostics = "diagnosticsCohorts")
 
-  name <- config::get(type,
-                      config = configBlock,
-                      file = configFile)
+  cohortTableNames <- cohortTableNames(type = type, configFile = configFile)
 
   connectionDetails <- config::get("connectionDetails",
                                    config = configBlock,
@@ -82,13 +102,6 @@ dropCohortTables <- function(configBlock, type = c("analysis", "diagnostics"),
   write_schema <- config::get("write",
                               config = configBlock,
                               file = configFile)
-
-  cohortTableNames <- list(cohortTable = name,
-                           cohortInclusionTable = paste0(name, "_inclusion"),
-                           cohortInclusionResultTable = paste0(name, "_inclusion_result"),
-                           cohortInclusionStatsTable = paste0(name, "_inclusion_stats"),
-                           cohortSummaryStatsTable = paste0(name, "_summary_stats"),
-                           cohortCensorStatsTable = paste0(name, "_censor_stats"))
 
   purrr::walk(cohortTableNames, ~drop_tbl(connectionDetails = connectionDetails,
                                           write_schema = write_schema,
