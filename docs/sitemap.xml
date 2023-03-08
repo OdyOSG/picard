@@ -43,6 +43,12 @@
     <loc>/reference/checkPipelineOrder.html</loc>
   </url>
   <url>
+    <loc>/reference/cohortManifest.html</loc>
+  </url>
+  <url>
+    <loc>/reference/cohortTableNames.html</loc>
+  </url>
+  <url>
     <loc>/reference/dropCohortTables.html</loc>
   </url>
   <url>
@@ -86,6 +92,9 @@
   </url>
   <url>
     <loc>/reference/showCredentials.html</loc>
+  </url>
+  <url>
+    <loc>/reference/startDemoProject.html</loc>
   </url>
   <url>
     <loc>/reference/startOhdsiProject.html</loc>
