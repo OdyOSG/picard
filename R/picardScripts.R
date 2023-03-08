@@ -153,7 +153,7 @@ importPipelineTask <- function(taskNumber,
   savePath <- fs::path(path, "R")
   vv <- vault::vault(vaultString, savePath = savePath)
   tt <- purrr::quietly(vault::checkout)(vv, item = item, openFile = FALSE)
-  oldFile <- fs::path(savePath, tt, ext = "R")
+  oldFile <- fs::path(savePath, tt$result, ext = "R")
   newFile <- fs::path(savePath, pipelineNm)
   fs::file_move(oldFile, newFile)
   cli::cat_bullet("Imported ", crayon::green(pipelineNm), " from ",
