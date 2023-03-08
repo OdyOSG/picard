@@ -82,7 +82,7 @@ startDemoProject <- function(path, configBlock) {
   instCohortsPaths <- fs::path_package("picard", "demo/cohortsToCreate") %>%
     fs::dir_ls(recurse = TRUE, type = "file")
   demoCohorts <- gsub(".*cohortsToCreate/", "", instCohortsPaths)
-  demoCohortPaths <- fs::path(path, "demo/input/cohortsToCreate", demoCohorts)
+  demoCohortPaths <- fs::path(path, "demo_picard/input/cohortsToCreate", demoCohorts)
   fs::file_copy(
     path = instCohortsPaths,
     new_path = demoCohortPaths,
@@ -93,7 +93,7 @@ startDemoProject <- function(path, configBlock) {
 
   # Step 9: Add readme
   instReadme <- fs::path_package("picard", "demo/README.md")
-  demoReadme <- fs::path(path, "demo/README.md")
+  demoReadme <- fs::path(path, "demo_picard/README.md")
   fs::file_copy(
     path = instReadme,
     new_path = demoReadme,
