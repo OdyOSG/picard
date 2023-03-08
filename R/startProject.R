@@ -91,7 +91,17 @@ startDemoProject <- function(path, configBlock) {
   cli::cat_bullet("Step 8: Add demo cohorts to picard project",
                   bullet_col = "green", bullet = "info")
 
-  # Step 9: Open project
+  # Step 9: Add readme
+  instReadme <- fs::path_package("picard", "demo/README.md")
+  demoReadme <- fs::path(path, "demo/README.md")
+  fs::file_copy(
+    path = instReadme,
+    new_path = demoReadme,
+    overwrite = TRUE
+  )
+  cli::cat_bullet("Step 9: Add demo README",
+                  bullet_col = "green", bullet = "info")
+  # Step 10: Open project
   open_new_proj(projectSpecs)
 
   invisible(projectSpecs)
