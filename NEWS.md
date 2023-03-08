@@ -1,3 +1,7 @@
+# picard 1.0.2
+- Patch adding a demo project function
+- fix bug in creating diagnostic cohorts table
+
 # picard 1.0.1
 -  Patch for adding function to update NEWS.md
 -  Fix bug in description file preventing `devtools::install_github`
