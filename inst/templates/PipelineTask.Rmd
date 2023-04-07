@@ -1,0 +1,32 @@
+---
+title: {{{ Task }}}
+author: {{ Author }}
+date: {{{ Date }}}
+output: html_document
+---
+
+
+# Description
+
+The purpose of the {{{ Task }}} script is to.....
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# Variables
+
+*List the variables to run the study in an R chunk*
+
+# Connection
+
+*In an R chunk add the connection to the cdm*
+
+# Script
+
+*Add tasks to your Rmd script*
+

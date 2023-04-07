@@ -1,0 +1,5 @@
+# Config File for {{{ Project }}}
+
+default:
+  projectName: {{{ Project }}}
+  cohortTable: {{{ Cohort }}}
