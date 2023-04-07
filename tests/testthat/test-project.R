@@ -1,22 +1,19 @@
-test_that("Can build a picard project", {
 
-  projectSpecs <- projectSpecifications(projectName = "test",
-                                        path = fs::file_temp(),
-                                        configBlocks = "test")
+test_that("Can build picard project", {
 
-  # Step 1: create project directory
-  create_proj_dir(projectSpecs)
-  dir_test <- fs::path(projectSpecs$location, projectSpecs$projectName)
-  expect_true(fs::dir_exists(dir_test))
+  picardProject(projectName = projectName,
+                directory = directory, author = author,
+                openProject = FALSE)
+  ff <- fs::dir_ls(directory, recurse = TRUE) %>% as.character()
+  # directory matches
+  expect_equal(ff[1], as.character(fs::path(directory, projectName)))
 
-  # Step 3: add folders
-  create_proj_folders(projectSpecs)
-  dir_test <- fs::path(projectSpecs$location, projectSpecs$projectName, "input")
-  expect_true(fs::dir_exists(dir_test))
+  # directory has analysis folder
+  idx <- which(grepl("analysis", ff))
+  expect_match(ff[idx], "analysis")
 
-  #Step 4: create config file
-  create_config_file(projectSpecs)
-  config_test <- fs::path(projectSpecs$location, projectSpecs$projectName, "config.yml")
-  expect_equal("test", config::get("projectName", file = config_test))
+  # directory has input/cohortsToCreate/01_studyPop folder
+  idx4 <- which(grepl("input/cohortsToCreate/01_studyPop", ff))
+  expect_match(ff[idx4], "input/cohortsToCreate/01_studyPop")
 
 })
