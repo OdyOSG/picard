@@ -224,3 +224,78 @@ makeInternals <- function(internalsName, projectPath = here::here(), author = NU
   invisible(data)
 
 }
+
+
+
+#' Email asking to initialize an ohdsi-studies repo
+#' @param senderName the name of the person sending the email
+#' @param projectPath the path to the picard project
+#' @param recipientName the name of the person receiving the email
+#' @param open toggle on whether the file should be opened
+#' @export
+requestStudyRepo <- function(senderName, projectPath = here::here(), recipientName = NULL, open = TRUE) {
+  #get study name
+  studyName <- basename(projectPath) %>%
+    snakecase::to_upper_camel_case()
+
+
+  if (is.null(recipientName)) {
+    recipientName <- "[Add Name of Recipient]"
+  }
+
+  data <- rlang::list2(
+    'Study' = studyName,
+    'Sender' = senderName,
+    'Recipient' = recipientName
+  )
+
+  usethis::use_template(
+    template = "RepoRequestEmail.txt",
+    save_as = fs::path("extras", "RepoRequestEmail.txt"),
+    data = data,
+    open = open,
+    package = "picard")
+
+
+  usethis::use_git_ignore(ignores = "extras/StudyRepoRequestEmail.txt")
+
+  invisible(data)
+
+}
+
+
+#' Email asking to participant in an ohdsi study
+#' @param senderName the name of the person sending the email
+#' @param projectPath the path to the picard project
+#' @param recipientName the name of the person receiving the email
+#' @param open toggle on whether the file should be opened
+#' @export
+requestStudyParticipation <- function(senderName, projectPath = here::here(), recipientName = NULL, open = TRUE) {
+  #get study name
+  studyName <- basename(projectPath) %>%
+    snakecase::to_upper_camel_case()
+
+
+  if (is.null(recipientName)) {
+    recipientName <- "[Add Name of Recipient]"
+  }
+
+  data <- rlang::list2(
+    'Study' = studyName,
+    'Sender' = senderName,
+    'Recipient' = recipientName
+  )
+
+  usethis::use_template(
+    template = "ParticipationRequestEmail.txt",
+    save_as = fs::path("extras", "ParticipationRequestEmail.txt"),
+    data = data,
+    open = open,
+    package = "picard")
+
+
+  usethis::use_git_ignore(ignores = "extras/ParticipationRequestEmail.txt")
+
+  invisible(data)
+
+}
