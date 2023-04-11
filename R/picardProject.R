@@ -24,9 +24,7 @@ picardProject <- function(projectName,
   cli::cat_bullet("Step 3: Adding Picard Project Folders",
                   bullet_col = "yellow", bullet = "info")
 
-  cohortFolders <- c('01_studyPop', '02_strata', '03_covariates',
-                     '04_target', '05_comparator', '06_outcome',
-                     '07_exposure', '08_diagnostics', '09_other')
+  cohortFolders <- c('01_target', '02_strata', '03_covariates')
   folders <- c(
     paste('input/cohortsToCreate', cohortFolders, sep = "/"),
     'output', 'extras', 'analysis', 'log'
