@@ -1,23 +1,56 @@
 #' Function to create a README file
+#' @param author the name of the person conducting the study
+#' @param type what type of study is this, there are three option
 #' @param projectPath the path to the project
-#' @param author the name of the person writing the study synopsis
 #' @param open toggle on whether the file should be opened
 #' @export
-makeReadMe <- function(projectPath = here::here(), author = NULL, open = TRUE) {
+makeStudyMeta <- function(author,
+                          type = c("Characterization", "Population-Level Estimation", "Patient-Level Prediction"),
+                          projectPath = here::here(),
+                          open = TRUE) {
+
 
   projName <- basename(projectPath) %>%
     snakecase::to_title_case()
   date <- lubridate::today()
 
-  if (is.null(author)) {
-    author <- "[Add Name of Author]"
-  }
+  data <- rlang::list2(
+    'Title' = projName,
+    'Author' = author,
+    'Type' = type,
+    'Date' = date
+  )
+
+  usethis::use_template(
+    template = "StudyMeta.yml",
+    save_as = "_picard.yml",
+    data = data,
+    open = open,
+    package = "picard")
+
+  invisible(data)
+
+}
+
+
+#' Function to create a README file
+#' @param projectPath the path to the project
+#' @param author the name of the person writing the study synopsis
+#' @param open toggle on whether the file should be opened
+#' @export
+makeReadMe <- function(projectPath = here::here(), open = TRUE) {
 
 
   data <- rlang::list2(
-    'Project' = projName,
-    'Author' = author,
-    'Date' = date
+    'Project' = getPicard("StudyTitle"),
+    'Author' = getPicard("StudyLead"),
+    'StudyType' = getPicard("StudyType"),
+    'StartDate' = getPicard("StudyStartDate"),
+    'EndDate' = getPicard("StudyEndDate"),
+    'StudyTags' = getPicard("StudyTags"),
+    'Protocol' = getPicard("LinksProtocol"),
+    'Publications' = getPicard("LinksPublication"),
+    'Dashboard' = getPicard("LinksDashboard")
   )
 
   usethis::use_template(
@@ -87,26 +120,13 @@ makeConfig <- function(block, database, projectPath = here::here(), open = TRUE)
 
 #' Function to create a Synopsis file
 #' @param projectPath the path to the project
-#' @param author the name of the person writing the study synopsis
-#' @param title a title for the synopsis
 #' @param open toggle on whether the file should be opened
 #' @export
-makeSynopsis <- function(projectPath = here::here(), author = NULL, title = projectPath, open = TRUE) {
-
-  if (title == projectPath) {
-    title <- basename(projectPath) %>%
-      snakecase::to_title_case()
-  }
-
-  if (is.null(author)) {
-    author <- "[Add Name of Author]"
-  }
-
-
+makeSynopsis <- function(projectPath = here::here(), open = TRUE) {
 
   data <- rlang::list2(
-    'Title' = title,
-    'Author' = author,
+    'Title' = getPicard("StudyTitle"),
+    'Author' = getPicard("StudyLead"),
     'Date' = lubridate::today()
   )
 
@@ -143,7 +163,8 @@ makeRmdTask <- function(taskName, step = NULL, projectPath = here::here(), autho
   data <- rlang::list2(
     'Task' = snakecase::to_title_case(taskName),
     'Author' = author,
-    'Date' = lubridate::today()
+    'Date' = lubridate::today(),
+    'FileName' = taskFileName
   )
 
 
@@ -215,7 +236,8 @@ makeInternals <- function(internalsName, projectPath = here::here(), author = NU
   data <- rlang::list2(
     'Task' = snakecase::to_title_case(internalsName),
     'Author' = author,
-    'Date' = lubridate::today()
+    'Date' = lubridate::today(),
+    'FileName' = intFileName
   )
 
 

@@ -4,19 +4,10 @@
 \alias{makeSynopsis}
 \title{Function to create a Synopsis file}
 \usage{
-makeSynopsis(
-  projectPath = here::here(),
-  author = NULL,
-  title = projectPath,
-  open = TRUE
-)
+makeSynopsis(projectPath = here::here(), open = TRUE)
 }
 \arguments{
 \item{projectPath}{the path to the project}
-
-\item{author}{the name of the person writing the study synopsis}
-
-\item{title}{a title for the synopsis}
 
 \item{open}{toggle on whether the file should be opened}
 }

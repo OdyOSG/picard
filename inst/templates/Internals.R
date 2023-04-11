@@ -1,9 +1,10 @@
-# Meta Info -----------------------
+# A. Meta Info -----------------------
+
 # Task: {{{ Task }}}
 # Author: {{{ Author }}}
 # Date: {{{ Date }}}
-# Description: The purpose of the {{{ Task }}} script is to.....
+# Description: The purpose of the {{{ FileName }}}.R script is to.....
 
-# Functions ------------------------
+# B. Functions ------------------------
 
 # Add internal functions here

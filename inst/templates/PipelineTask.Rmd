@@ -6,9 +6,9 @@ output: html_document
 ---
 
 
-# Description
+# A. Description
 
-The purpose of the {{{ Task }}} script is to.....
+The purpose of the {{{ FileName }}}.Rmd script is to.....
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -18,15 +18,35 @@ knitr::opts_chunk$set(
 ```
 
 
-# Variables
+# B. Variables
+
+## Admin Variables
+
+
+```{r adminVar}
+outputFolder <- here::here("output/{{{ FileName }}}") %>%
+  fs::dir_create()
+```
+
+
+## Study Variables
 
 *List the variables to run the study in an R chunk*
 
-# Connection
+# C. Connection
 
 *In an R chunk add the connection to the cdm*
 
-# Script
+# D. Script
 
 *Add tasks to your Rmd script*
+
+
+# E. Session Info
+
+```{r sessionInfo}
+
+sessioninfo::session_info()
+
+```
 

@@ -8,16 +8,20 @@
 
 ### Meta
 
--   **Study Lead**: {{{ Author }}}
--   **Study Start Date**: {{{ Date }}}
--   **Study Type**: *Add study type*
-<!-- meta: start -->
 
-<!-- meta: end -->
+Study Lead: {{{ Author }}}
+Analytics Use Case: {{{ StudyType }}}
+Study Start Date: {{{ StartDate }}}
+Study End Date: {{{ EndDate }}}
+Study Tags: {{{ StudyTags }}}
+Protocol: {{{ Protocol }}}
+Publications: {{{ Publications }}}
+Results Explorer: {{{ Dashboard }}}
+
 
 ### Description
 
-*Add a project decription to your README*
+*Add a project description to your README*
 
 ### Data Used
 

@@ -12,15 +12,10 @@ library(tidyverse, quietly = TRUE)
 
 # C. Variables -----------------------
 
-# Admin variables -------------------
+## Admin variables -------------------
 
 outputFolder <- here::here("output/{{{ FileName }}}") %>%
   fs::dir_create()
-
-log <- here::here("log/{{{ FileName }}}") %>%
-  ParallelLogger::addDefaultFileLogger()
-
-
 
 ## Study Variables -------------------
 

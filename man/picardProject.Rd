@@ -4,10 +4,20 @@
 \alias{picardProject}
 \title{Function that initializes a picard project used for an OHDSI study}
 \usage{
-picardProject(projectName, directory = here::here(), openProject = TRUE)
+picardProject(
+  projectName,
+  author,
+  type,
+  directory = here::here(),
+  openProject = TRUE
+)
 }
 \arguments{
 \item{projectName}{the name of the project}
+
+\item{author}{the name of the study lead}
+
+\item{type}{the type of study either Characterization, PLP or PLE}
 
 \item{directory}{the directory to create the project}
 

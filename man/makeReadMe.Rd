@@ -4,14 +4,14 @@
 \alias{makeReadMe}
 \title{Function to create a README file}
 \usage{
-makeReadMe(projectPath = here::here(), author = NULL, open = TRUE)
+makeReadMe(projectPath = here::here(), open = TRUE)
 }
 \arguments{
 \item{projectPath}{the path to the project}
 
-\item{author}{the name of the person writing the study synopsis}
-
 \item{open}{toggle on whether the file should be opened}
+
+\item{author}{the name of the person writing the study synopsis}
 }
 \description{
 Function to create a README file
