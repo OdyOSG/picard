@@ -55,10 +55,12 @@ makeNews <- function(projectPath = here::here(), open = TRUE) {
 }
 
 #' Function to create a config.yml file
+#' @param block the name of the config block
+#' @param database the name of the database for the block
 #' @param projectPath the path to the project
 #' @param open toggle on whether the file should be opened
 #' @export
-makeConfig <- function(projectPath = here::here(), open = TRUE) {
+makeConfig <- function(block, database, projectPath = here::here(), open = TRUE) {
 
   projName <- basename(projectPath) %>%
     snakecase::to_snake_case()
@@ -66,7 +68,9 @@ makeConfig <- function(projectPath = here::here(), open = TRUE) {
 
   data <- rlang::list2(
     'Project' = projName,
-    'Cohort' = paste(projName, "cohorts", sep = "_")
+    'Cohort' = paste(projName, database, sep = "_"),
+    'Block' = block,
+    'Database' = database
   )
 
   usethis::use_template(
@@ -176,7 +180,8 @@ makeScriptTask <- function(taskName, step = NULL, projectPath = here::here(), au
   data <- rlang::list2(
     'Task' = snakecase::to_title_case(taskName),
     'Author' = author,
-    'Date' = lubridate::today()
+    'Date' = lubridate::today(),
+    'FileName' = taskFileName
   )
 
 
@@ -225,7 +230,39 @@ makeInternals <- function(internalsName, projectPath = here::here(), author = NU
 
 }
 
+#' Function to create a cohort folder in input/cohortsToCreate
+#' @param foldernName The name of the new folder
+#' @param projectPath the path to the project
+#' @export
+makeCohortFolder <- function(folderName, projectPath = here::here()) {
 
+  dir_path <- fs::path(projectPath, "input/cohortsToCreate")
+
+  cohortsToCreateFolders <- dir_path %>%
+    fs::dir_ls(any = "directory") %>%
+    basename()
+
+  lastNumber <- gsub("_.*", "", cohortsToCreateFolders) %>%
+    as.integer() %>%
+    max()
+
+  folderNumber <- lastNumber + 1L
+
+  if (folderNumber < 10L) {
+    folderNumber <- scales::label_number(prefix = "0")(folderNumber)
+  }
+
+  fullName <- paste(folderNumber, folderName, sep = "_")
+
+  cli::cat_bullet("Creating new cohort folder ", crayon::cyan(fullName), " in path ", crayon::cyan(dir_path),
+                  bullet = "tick", bullet_col = "green")
+
+   fs::path(dir_path, fullName)%>%
+    fs::dir_create()
+
+   invisible(fullName)
+
+}
 
 #' Email asking to initialize an ohdsi-studies repo
 #' @param senderName the name of the person sending the email
