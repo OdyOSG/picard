@@ -252,6 +252,8 @@ makeCohortFolder <- function(folderName, projectPath = here::here()) {
     folderNumber <- scales::label_number(prefix = "0")(folderNumber)
   }
 
+  folderName <- snakecase::to_upper_camel_case(folderName)
+
   fullName <- paste(folderNumber, folderName, sep = "_")
 
   cli::cat_bullet("Creating new cohort folder ", crayon::cyan(fullName), " in path ", crayon::cyan(dir_path),
