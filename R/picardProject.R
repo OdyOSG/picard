@@ -1,9 +1,13 @@
 #' Function that initializes a picard project used for an OHDSI study
 #' @param projectName the name of the project
+#' @param author the name of the study lead
+#' @param type the type of study either Characterization, PLP or PLE
 #' @param directory the directory to create the project
 #' @param openProject should the project be opened if created
 #' @export
 picardProject <- function(projectName,
+                          author,
+                          type,
                           directory = here::here(),
                           openProject = TRUE) {
 
@@ -32,6 +36,12 @@ picardProject <- function(projectName,
 
   fs::path(dir_path, folders) %>%
     fs::dir_create(recurse = TRUE)
+
+  # Step 4: create _picard.yml file
+  cli::cat_bullet("Step 4: Adding _picard.yml file",
+                  bullet_col = "yellow", bullet = "info")
+  makeStudyMeta(author = author, type = type,
+                projectPath = dir_path, open = FALSE)
 
   if (openProject) {
     cli::cat_bullet("Opening project in new session",

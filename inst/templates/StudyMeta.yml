@@ -1,0 +1,16 @@
+# Study Meta for {{{ Title }}}
+
+Study:
+  Title: {{{ Title }}}
+  Lead: {{{ Author }}}
+  Status: Initialized
+  Type: {{{ Type }}}
+  StartDate: {{{ Date }}}
+  EndDate: 12-31-2099
+  Tags: None
+Links:
+  Protocol: Unavailable
+  Publication: Unavailable
+  Dashboard: Unavailable
+
+
