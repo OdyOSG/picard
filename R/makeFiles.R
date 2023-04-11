@@ -239,7 +239,7 @@ makeCohortFolder <- function(folderName, projectPath = here::here()) {
   dir_path <- fs::path(projectPath, "input/cohortsToCreate")
 
   cohortsToCreateFolders <- dir_path %>%
-    fs::dir_ls(any = "directory") %>%
+    fs::dir_ls(type = "directory") %>%
     basename()
 
   lastNumber <- gsub("_.*", "", cohortsToCreateFolders) %>%
