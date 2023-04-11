@@ -32,3 +32,26 @@ cohortManifest <- function(inputPath = here::here("input/cohortsToCreate")) {
     )
   return(tb)
 }
+
+
+flattenPicard <- function(projectPath = here::here()) {
+  yml <- fs::path(projectPath, "_picard.yml") %>%
+    yaml::read_yaml()
+
+  studyYml <- yml$Study
+  names(studyYml) <- paste0("Study", names(studyYml))
+
+  linksYml <- yml$Links
+  names(linksYml) <- paste0("Links", names(linksYml))
+
+  yml2 <- c(studyYml, linksYml)
+  return(yml2)
+}
+
+
+getPicard <- function(item, projectPath = here::here()) {
+
+  yml <- flattenPicard(projectPath = projectPath)
+  yml[[item]]
+
+}
