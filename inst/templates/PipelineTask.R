@@ -1,23 +1,41 @@
-# Meta Info -----------------------
+# A. Meta Info -----------------------
+
 # Task: {{{ Task }}}
 # Author: {{{ Author }}}
 # Date: {{{ Date }}}
-# Description: The purpose of the {{{ Task }}} script is to.....
+# Description: The purpose of {{{ FileName }}}.R is to.....
 
 
-# Dependencies ----------------------
+# B. Dependencies ----------------------
 
 library(tidyverse, quietly = TRUE)
 
-# Varibales -----------------------
+# C. Variables -----------------------
+
+# Admin variables -------------------
+
+outputFolder <- here::here("output/{{{ FileName }}}") %>%
+  fs::dir_create()
+
+log <- here::here("log/{{{ FileName }}}") %>%
+  ParallelLogger::addDefaultFileLogger()
+
+
+
+## Study Variables -------------------
 
 # Add variables for study here
 
-# Connection ----------------------
+# D. Connection ----------------------
 
 # add connection code here
 
 
-# Script --------------------
+# E. Script --------------------
 
 # Add script here
+
+# F. Session Info ------------------------
+
+sessioninfo::session_info()
+
