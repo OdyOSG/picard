@@ -46,7 +46,7 @@ cdmBadge <- function(version = c("5.3", "5.4")) {
                `5.3` = "53",
                `5.4` = "54")
 
-  src <- glue::glue("https://img.shields.io/badge/CDM%20Version-{version}-dodgerblue.svg")
+  src <- glue::glue("https://img.shields.io/badge/CDM%20Version-{version}-lemonchiffon.svg")
   href <- glue::glue("https://ohdsi.github.io/CommonDataModel/cdm{vv}.html")
   usethis::use_badge("CDM Version", href, src)
 
