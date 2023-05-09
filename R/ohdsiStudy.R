@@ -1,11 +1,11 @@
-#' Function that initializes a picard project used for an OHDSI study
+#' Function that initializes a new ohdsi study project environment
 #' @param projectName the name of the project
 #' @param author the name of the study lead
 #' @param type the type of study either Characterization, PLP or PLE
 #' @param directory the directory to create the project
 #' @param openProject should the project be opened if created
 #' @export
-picardProject <- function(projectName,
+newOhdsiStudy <- function(projectName,
                           author,
                           type,
                           directory = here::here(),
@@ -20,9 +20,10 @@ picardProject <- function(projectName,
   # Step 2: Add .RProj to Directory
   cli::cat_bullet("Step 2: Add .RProj to Directory",
                   bullet_col = "yellow", bullet = "info")
-  usethis::create_project(dir_path, open = FALSE)
-  #remove r folder
-  fs::path(dir_path, "R") %>% fs::dir_delete()
+  path <- usethis:::user_path_prep(dir_path)
+  pName <- fs::path_file(fs::path_abs(dir_path))
+  usethis:::local_project(dir_path, force = TRUE)
+  usethis:::use_rstudio()
 
   # Step 3: add picard directory structure folders
   cli::cat_bullet("Step 3: Adding Picard Project Folders",
@@ -30,15 +31,15 @@ picardProject <- function(projectName,
 
   cohortFolders <- c('01_target', '02_strata', '03_covariates')
   folders <- c(
-    paste('input/cohortsToCreate', cohortFolders, sep = "/"),
-    'output', 'extras', 'analysis', 'log'
+    paste('cohortsToCreate', cohortFolders, sep = "/"),
+    'results', 'extras', 'analysis', 'log'
   )
 
   fs::path(dir_path, folders) %>%
     fs::dir_create(recurse = TRUE)
 
   # Step 4: create _picard.yml file
-  cli::cat_bullet("Step 4: Adding _picard.yml file",
+  cli::cat_bullet("Step 4: Adding _study.yml file",
                   bullet_col = "yellow", bullet = "info")
   makeStudyMeta(author = author, type = type,
                 projectPath = dir_path, open = FALSE)
