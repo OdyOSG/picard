@@ -29,8 +29,14 @@ newOhdsiStudy <- function(projectName,
   cli::cat_bullet("Step 3: Adding OHDSI Study Project Folders",
                   bullet_col = "yellow", bullet = "info")
 
+  cohortFolders <- c('01_target')
+  analysisFolders <- c("settings", "studyTasks", "private")
   folders <- c(
-    'cohortsToCreate', 'results', 'extras', 'analysis', 'log'
+    paste('cohortsToCreate', cohortFolders, sep = "/"),
+    paste('analysis', analysisFolders, sep = "/"),
+    'results',
+    'extras',
+    'logs'
   )
 
   fs::path(dir_path, folders) %>%
@@ -41,6 +47,14 @@ newOhdsiStudy <- function(projectName,
                   bullet_col = "yellow", bullet = "info")
   makeStudyMeta(author = author, type = type,
                 projectPath = dir_path, open = FALSE)
+
+
+  # Step 5: create gitignore
+  cli::cat_bullet("Step 5: Add to .gitignore file",
+                  bullet_col = "yellow", bullet = "info")
+  ignores <- c("results/","logs/", "_study.yml")
+  usethis:::write_union(fs::path(dir_path, ".gitignore"), ignores)
+
 
   if (openProject) {
     cli::cat_bullet("Opening project in new session",
@@ -55,25 +69,31 @@ newOhdsiStudy <- function(projectName,
 #' Function to check if the directory is a picard project
 #' @param basePath the path of the directory
 #' @export
-isPicard <- function(basePath) {
+isOhdsiStudy <- function(basePath) {
+
+  # check if diretory has _study.yml file
+  check1 <- fs::file_exists("_study.yml") %>% unname()
+
+  #check if has subfolders
+  folders <- c("analysis", "cohortsToCreate", "results", "logs", "extras")
 
   ff <- fs::dir_ls(basePath, type = "directory") %>%
     basename()
-  check <- all(c("analysis", "extras", "input", "log", "output") %in% ff)
+  check2 <- all(folders %in% ff)
 
-  if (check) {
+  if (check1 & check2) {
     cli::cat_bullet(
-      crayon::red(basename(basePath), " is a picard project"),
-      bullet = "info", bullet_col = "yellow"
+      crayon::cyan(basename(basePath)), " is a picard project",
+      bullet = "tick", bullet_col = "green"
     )
   } else{
     cli::cat_bullet(
-      crayon::red(basename(basePath), " is not a picard project"),
-      bullet = "info", bullet_col = "yellow"
+      crayon::cyan(basename(basePath)), " is not a picard project",
+      bullet = "cross", bullet_col = "red"
     )
 
   }
 
-  invisible(check)
+  invisible(check1)
 
 }

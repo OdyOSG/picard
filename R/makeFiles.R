@@ -41,22 +41,21 @@ makeStudyMeta <- function(author,
 
 #' Function to create a README file
 #' @param projectPath the path to the project
-#' @param author the name of the person writing the study synopsis
 #' @param open toggle on whether the file should be opened
 #' @export
 makeReadMe <- function(projectPath = here::here(), open = TRUE) {
 
 
   data <- rlang::list2(
-    'Project' = getPicard("StudyTitle"),
-    'Author' = getPicard("StudyLead"),
-    'StudyType' = getPicard("StudyType"),
-    'StartDate' = getPicard("StudyStartDate"),
-    'EndDate' = getPicard("StudyEndDate"),
-    'StudyTags' = getPicard("StudyTags"),
-    'Protocol' = getPicard("LinksProtocol"),
-    'Publications' = getPicard("LinksPublication"),
-    'Dashboard' = getPicard("LinksDashboard")
+    'Project' = getStudyDetails("StudyTitle"),
+    'Author' = getStudyDetails("StudyLead"),
+    'StudyType' = getStudyDetails("StudyType"),
+    'StartDate' = getStudyDetails("StudyStartDate"),
+    'EndDate' = getStudyDetails("StudyEndDate"),
+    'StudyTags' = getStudyDetails("StudyTags"),
+    'Protocol' = getStudyDetails("LinksProtocol"),
+    'Publications' = getStudyDetails("LinksPublication"),
+    'Dashboard' = getStudyDetails("LinksDashboard")
   )
 
   usethis::use_template(
@@ -92,6 +91,41 @@ makeNews <- function(projectPath = here::here(), open = TRUE) {
   invisible(data)
 
 }
+#
+# makeIgnore <- function(projectPath) {
+#   usethis::use_template(
+#     template = ".gitignore",
+#     open = FALSE,
+#     package = "picard")
+#
+#   invisible(projectPath)
+# }
+
+#' Function to create a cohort details file
+#' @param projectPath the path to the project
+#' @param open toggle on whether the file should be opened
+#' @export
+makeCohortDetails <- function(projectPath = here::here(), open = TRUE) {
+
+  projName <- basename(projectPath) %>%
+    snakecase::to_title_case()
+
+
+  data <- rlang::list2(
+    'Study' = projName,
+  )
+
+  usethis::use_template(
+    template = "CohortDetails.md",
+    save_as = fs::path("cohortsToCreate", "cohortDetails.md"),
+    data = data,
+    open = open,
+    package = "picard")
+
+  invisible(data)
+
+}
+
 
 #' Function to create a config.yml file
 #' @param block the name of the config block
@@ -131,6 +165,36 @@ makeConfig <- function(block, database, projectPath = here::here(), open = TRUE,
   invisible(data)
 }
 
+#' Function to create a config.yml file
+#' @param projectPath the path to the project
+#' @param open toggle on whether the file should be opened
+#' @param secret a keyword to use as the keyring password to access credentials
+#' @export
+makeKeyringSetup <- function(projectPath = here::here(), open = TRUE, secret = NULL) {
+
+  keyringName <- snakecase::to_snake_case(getStudyDetails("StudyTitle"))
+  if (is.null(secret)) {
+    keyringPassword <- keyringName
+  }
+
+  data <- rlang::list2(
+    'Name' = keyringName,
+    'Secret'= keyringPassword
+  )
+
+  usethis::use_template(
+    template = "KeyringSetup.R",
+    save_as = fs::path("extras", "KeyringSetup.R"),
+    data = data,
+    open = open,
+    package = "picard")
+
+  usethis::use_git_ignore(ignores = "extras/KeyringSetup.R")
+
+  invisible(data)
+
+
+}
 
 #' Function to create a Synopsis file
 #' @param projectPath the path to the project
@@ -139,8 +203,8 @@ makeConfig <- function(block, database, projectPath = here::here(), open = TRUE,
 makeSynopsis <- function(projectPath = here::here(), open = TRUE) {
 
   data <- rlang::list2(
-    'Title' = getPicard("StudyTitle"),
-    'Author' = getPicard("StudyLead"),
+    'Title' = getStudyDetails("StudyTitle"),
+    'Author' = getStudyDetails("StudyLead"),
     'Date' = lubridate::today()
   )
 
