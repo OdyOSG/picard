@@ -1,0 +1,62 @@
+# A. Meta Info -----------------------
+
+# Name: {{{ Name }}}
+# Author: {{{ Author }}}
+# Date: {{{ Date }}}
+# Description: The purpose of {{{ FileName }}}.R is to.....
+
+
+# B. Dependencies ----------------------
+
+library(tidyverse, quietly = TRUE)
+
+{{#manual}}
+library(DatabaseConnector)
+
+# C. Connection ----------------------
+
+# Schema variables
+#set database schemas
+vocabularyDatabaseSchema <- "<vocabularyDatabaseSchema>"
+cdmDatabaseSchema <- "<cdmDatabaseSchema>"
+workDatabasSchema <- "<workDatabaseSchema>"
+cohortTable <- "<cohortTable>"
+
+# set output folder
+outputFolder <- here::here("output/{{{ FileName }}}") %>%
+  fs::dir_create()
+
+# create connection details
+connectionDetails <- DatabaseConnector::createConnectionDetails(
+  dbms = "<dbms>",
+  user = "<user>",
+  password = "<password>",
+  connectionString = "<connectionString>"
+)
+
+# Connect to database
+DatabaseConnector::connect(connectionDetails = connectionDetails)
+on.exit(DatabaseConnector::disconnect(connection))
+{{/manual}}
+
+{{#config}}
+library(config)
+# C. Connection ----------------------
+
+{{/new}}
+
+# C. Study Variables -----------------------
+
+
+# Add variables for study here
+
+
+
+# D. Script --------------------
+
+# Add script here
+
+# E. Session Info ------------------------
+
+sessioninfo::session_info()
+rm(list=ls())
