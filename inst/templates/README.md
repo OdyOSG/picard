@@ -1,6 +1,12 @@
 # {{{ Project }}}
 
 <!-- badges: start -->
+![Study Status:
+Started](https://img.shields.io/badge/Study%20Status-Repo%20Started-blue.svg)
+[![CDM
+Version](https://img.shields.io/badge/CDM%20Version-5.4-lemonchiffon.svg)](https://ohdsi.github.io/CommonDataModel/cdm54.html)
+[![Vocabulary
+Version](https://img.shields.io/badge/Vocabulary%20Version-5.0-rosybrown.svg)](https://github.com/OHDSI/Vocabulary-v5.0)
 
 <!-- badges: end -->
 
@@ -9,14 +15,14 @@
 ### Meta
 
 
-Study Lead: {{{ Author }}}
-Analytics Use Case: {{{ StudyType }}}
-Study Start Date: {{{ StartDate }}}
-Study End Date: {{{ EndDate }}}
-Study Tags: {{{ StudyTags }}}
-Protocol: {{{ Protocol }}}
-Publications: {{{ Publications }}}
-Results Explorer: {{{ Dashboard }}}
+  - **Study Lead**: {{{ Author }}}
+  - **Analytics Use Case**: {{{ StudyType }}}
+  - **Study Start Date**: {{{ StartDate }}}
+  - **Study End Date**: {{{ EndDate }}}
+  - **Study Tags**: {{{ StudyTags }}}
+  - **Protocol**: {{{ Protocol }}}
+  - **Publications**: {{{ Publications }}}
+  - **Results Explorer**: {{{ Dashboard }}}
 
 
 ### Description
