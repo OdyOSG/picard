@@ -23,8 +23,8 @@ if (Sys.getenv("STRATEGUS_KEYRING_PASSWORD") == "") {
 ##################################
 # DO NOT MODIFY BELOW THIS POINT
 ##################################
-keyringName <- {{ Name }}
-keyringPassword <- {{ Secret }} # This password is simply to avoid a prompt when creating the keyring
+keyringName <- "{{{ Name }}}"
+keyringPassword <- "{{{ Secret }}" # This password is simply to avoid a prompt when creating the keyring
 
 # Create the keyring if it does not exist.
 # If it exists, clear it out so we can re-load the keys
