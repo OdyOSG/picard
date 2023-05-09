@@ -4,7 +4,13 @@
 \alias{makeConfig}
 \title{Function to create a config.yml file}
 \usage{
-makeConfig(block, database, projectPath = here::here(), open = TRUE)
+makeConfig(
+  block,
+  database,
+  projectPath = here::here(),
+  open = TRUE,
+  type = c("keyring", "fillin")
+)
 }
 \arguments{
 \item{block}{the name of the config block}
@@ -14,6 +20,8 @@ makeConfig(block, database, projectPath = here::here(), open = TRUE)
 \item{projectPath}{the path to the project}
 
 \item{open}{toggle on whether the file should be opened}
+
+\item{type}{the type of config style to use}
 }
 \description{
 Function to create a config.yml file

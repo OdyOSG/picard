@@ -21,14 +21,20 @@ makeStudyMeta <- function(author,
     'Date' = date
   )
 
-  usethis::use_template(
-    template = "StudyMeta.yml",
-    save_as = "_picard.yml",
-    data = data,
-    open = open,
-    package = "picard")
-
-  invisible(data)
+  template_contents <- usethis:::render_template("StudyMeta.yml",
+                                                 data = data,
+                                                 package = "picard")
+  save_as <- fs::path(projectPath, "_picard.yml")
+  new <- usethis:::write_utf8(save_as, template_contents)
+  invisible(new)
+  # usethis::use_template(
+  #   template = ,
+  #   save_as = "_picard.yml",
+  #   data = data,
+  #   open = open,
+  #   package = "picard")
+  #
+  # invisible(data)
 
 }
 
@@ -92,8 +98,11 @@ makeNews <- function(projectPath = here::here(), open = TRUE) {
 #' @param database the name of the database for the block
 #' @param projectPath the path to the project
 #' @param open toggle on whether the file should be opened
+#' @param type the type of config style to use
 #' @export
-makeConfig <- function(block, database, projectPath = here::here(), open = TRUE) {
+makeConfig <- function(block, database, projectPath = here::here(), open = TRUE, type = c("keyring", "fillin")) {
+
+  configType <- match.arg(type, c("keyring", "fillin"))
 
   projName <- basename(projectPath) %>%
     snakecase::to_snake_case()
@@ -106,8 +115,13 @@ makeConfig <- function(block, database, projectPath = here::here(), open = TRUE)
     'Database' = database
   )
 
+  configType <- switch(configType,
+                      keyring = "config_keyring.yml",
+                      fillin = "config_fillin.yml")
+
   usethis::use_template(
-    template = "config.yml",
+    template = configType,
+    save_as = "config.yml",
     data = data,
     open = open,
     package = "picard")
