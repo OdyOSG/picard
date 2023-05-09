@@ -24,7 +24,7 @@ makeStudyMeta <- function(author,
   template_contents <- usethis:::render_template("StudyMeta.yml",
                                                  data = data,
                                                  package = "picard")
-  save_as <- fs::path(projectPath, "_picard.yml")
+  save_as <- fs::path(projectPath, "_study.yml")
   new <- usethis:::write_utf8(save_as, template_contents)
   invisible(new)
   # usethis::use_template(

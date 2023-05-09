@@ -26,13 +26,11 @@ newOhdsiStudy <- function(projectName,
   usethis:::use_rstudio()
 
   # Step 3: add picard directory structure folders
-  cli::cat_bullet("Step 3: Adding Picard Project Folders",
+  cli::cat_bullet("Step 3: Adding OHDSI Study Project Folders",
                   bullet_col = "yellow", bullet = "info")
 
-  cohortFolders <- c('01_target', '02_strata', '03_covariates')
   folders <- c(
-    paste('cohortsToCreate', cohortFolders, sep = "/"),
-    'results', 'extras', 'analysis', 'log'
+    'cohortsToCreate', 'results', 'extras', 'analysis', 'log'
   )
 
   fs::path(dir_path, folders) %>%
