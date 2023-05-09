@@ -1,0 +1,20 @@
+# Config File for {{{ Project }}}
+
+default:
+  projectName: {{{ Project }}}
+
+# Config block for {{{ Block }}}
+
+{{{ Block }}}:
+  databaseName: {{{ Database }}}
+  dbms: fillin_dbms
+  user: fillin_user
+  password: fillin_password
+  connectionString: fillin_connectionString
+  cdmDatabase: fillin_cdmDatabase
+  cdmSchema: fillin_cdmSchema
+  vocabSchema: fillin_vocabSchema
+  workDatabase: fillin_workDatabase
+  workSchema: fillin_workSchema
+  role: fillin_role
+  cohortTable: {{{ Cohort }}}
