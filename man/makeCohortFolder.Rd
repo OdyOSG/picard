@@ -4,12 +4,12 @@
 \alias{makeCohortFolder}
 \title{Function to create a cohort folder in input/cohortsToCreate}
 \usage{
-makeCohortFolder(folderName, projectPath = here::here())
+makeCohortFolder(folderName)
 }
 \arguments{
-\item{projectPath}{the path to the project}
-
 \item{foldernName}{The name of the new folder}
+
+\item{projectPath}{the path to the project}
 }
 \description{
 Function to create a cohort folder in input/cohortsToCreate

@@ -4,19 +4,12 @@
 \alias{makeInternals}
 \title{Function to create a pipeline task as an R file}
 \usage{
-makeInternals(
-  internalsName,
-  projectPath = here::here(),
-  author = NULL,
-  open = TRUE
-)
+makeInternals(internalsName, projectPath = here::here(), open = TRUE)
 }
 \arguments{
 \item{internalsName}{The name of the internals file that is being created}
 
 \item{projectPath}{the path to the project}
-
-\item{author}{the name of the person writing the study synopsis}
 
 \item{open}{toggle on whether the file should be opened}
 }
