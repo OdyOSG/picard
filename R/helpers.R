@@ -55,3 +55,33 @@ getStudyDetails <- function(item, projectPath = here::here()) {
   yml[[item]]
 
 }
+
+
+findStepNumber <- function(dir = c("cohortsToCreate", "analysis/studyTasks"), projectPath = here::here()) {
+
+  dir <- match.arg(dir, choices = c("cohortsToCreate", "analysis/studyTasks"))
+
+  if (dir == "cohortsToCreate") {
+    items <- fs::path(projectPath, dir) %>%
+      fs::dir_ls(type = "directory") %>%
+      basename()
+  }
+
+  if (dir == "analysis/studyTasks") {
+    items <- fs::path(projectPath, dir) %>%
+      fs::dir_ls(type = "file") %>%
+      basename()
+  }
+
+  if (length(items) == 0) {
+    step <- 1L
+  } else {
+    lastNumber <- gsub("_.*", "", items) %>%
+      as.integer() %>%
+      max()
+    step <- lastNumber + 1L
+  }
+
+  return(step)
+
+}
