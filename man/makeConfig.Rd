@@ -4,13 +4,7 @@
 \alias{makeConfig}
 \title{Function to create a config.yml file}
 \usage{
-makeConfig(
-  block,
-  database,
-  projectPath = here::here(),
-  open = TRUE,
-  type = c("keyring", "fillin")
-)
+makeConfig(block, database, projectPath = here::here(), open = TRUE)
 }
 \arguments{
 \item{block}{the name of the config block}

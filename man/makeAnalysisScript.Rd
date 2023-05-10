@@ -4,14 +4,14 @@
 \alias{makeAnalysisScript}
 \title{Function to create a pipeline task as a Rmd file}
 \usage{
-makeAnalysisScript(scriptName, open = TRUE, oldConnectionStyle = TRUE)
+makeAnalysisScript(scriptName, configBlock = NULL, open = TRUE)
 }
 \arguments{
 \item{scriptName}{The name of the analysis script}
 
-\item{open}{toggle on whether the file should be opened}
+\item{configBlock}{the name of the config block to use for the script}
 
-\item{oldConnectionStyle}{a toggle indicating if the script should be automated with the old connection style}
+\item{open}{toggle on whether the file should be opened}
 }
 \description{
 Function to create a pipeline task as a Rmd file
