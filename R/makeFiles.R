@@ -325,10 +325,9 @@ makeKeyringSetup <- function(projectPath = here::here(), open = TRUE, secret = N
 }
 
 #' Function to create a Synopsis file
-#' @param projectPath the path to the project
 #' @param open toggle on whether the file should be opened
 #' @export
-makeStudySynopsis <- function(projectPath = here::here(), open = TRUE) {
+makeStudySynopsis <- function(open = TRUE) {
 
   data <- rlang::list2(
     'Title' = getStudyDetails("StudyTitle"),
@@ -346,8 +345,71 @@ makeStudySynopsis <- function(projectPath = here::here(), open = TRUE) {
 
 }
 
+#' Function to create a Synopsis file
+#' @param org the name of the organization hosting the repo, for example 'ohdsi-studies'.
+#' If null defaults to a dummy text
+#' @param repo the name of the study repository on github, defaults to the study title
+#' @param open toggle on whether the file should be opened
+#' @export
+makeHowTo <- function(org = NULL, repo = NULL, open = TRUE) {
+
+  if (is.null(repo)) {
+    repo <- snakecase::to_snake_case(getStudyDetails("StudyTitle"))
+  }
+
+  if (is.null(org)) {
+    org <- "[ORG]"
+  }
+
+  data <- rlang::list2(
+    'Study' = getStudyDetails("StudyTitle"),
+    'Url' = glue::glue("https://github.com/{org}/{repo}"),
+    'Org' = org,
+    'Repo' = repo
+    )
 
 
+  usethis::use_template(
+    template = "HowToRun.md",
+    save_as = fs::path("extras", "HowToRun.md"),
+    data = data,
+    open = open,
+    package = "picard")
+
+  invisible(data)
+
+}
+
+#' R Markdown file to make the study protocol
+#' @param open toggle on whether the file should be opened
+#' @export
+makeStudyProtocol <- function(open = TRUE) {
+
+  data <- rlang::list2(
+    Study =  getStudyDetails(item = "StudyTitle"),
+    Date = lubridate::today()
+  )
+
+  fileName <- snakecase::to_upper_camel_case(getStudyDetails(item = "StudyTitle")) %>%
+    paste0("Protocol")
+
+  dir_path <- fs::path("extras", "Protocol") %>%
+    fs::dir_create()
+
+  usethis::use_template(
+    template = "StudyProtocol.Rmd",
+    save_as = fs::path(dir_path, fileName, ext = "Rmd"),
+    data = data,
+    open = open,
+    package = "picard")
+
+  #get Protocol Components and move to folder
+  fs::path_package("picard", "templates/Protocol-Components") %>%
+    fs::dir_copy(new_path = dir_path, overwrite = TRUE)
+
+
+  invisible(data)
+}
 
 #' Email asking to initialize an ohdsi-studies repo
 #' @param senderName the name of the person sending the email
