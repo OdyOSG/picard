@@ -1,14 +1,20 @@
 # {{{ Project }}}
 
-<!-- badges: start -->
+<!-- studyStatus: start -->
+
 ![Study Status:
-Started](https://img.shields.io/badge/Study%20Status-Repo%20Started-blue.svg)
+Started](https://img.shields.io/badge/Study%20Status-Repo%20Created-lightgray.svg)
+
+<!-- studyStatus: end -->
+
+
 [![CDM
 Version](https://img.shields.io/badge/CDM%20Version-5.4-lemonchiffon.svg)](https://ohdsi.github.io/CommonDataModel/cdm54.html)
+
+
 [![Vocabulary
 Version](https://img.shields.io/badge/Vocabulary%20Version-5.0-rosybrown.svg)](https://github.com/OHDSI/Vocabulary-v5.0)
 
-<!-- badges: end -->
 
 ## Project Information
 
