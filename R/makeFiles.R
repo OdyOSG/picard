@@ -194,26 +194,30 @@ makeExample <- function(fileName, savePath = here::here(), open = TRUE) {
 
 #' Function to create a pipeline task as a Rmd file
 #' @param scriptName The name of the analysis script
+#' @param configBlock the name of the config block to use for the script
 #' @param open toggle on whether the file should be opened
-#' @param oldConnectionStyle a toggle indicating if the script should be automated with the old connection style
 #' @export
-makeAnalysisScript <- function(scriptName, open = TRUE, oldConnectionStyle = TRUE) {
+makeAnalysisScript <- function(scriptName, configBlock = NULL, open = TRUE) {
 
 
   taskNum <- findStepNumber(dir = "analysis/studyTasks")
   step <- scales::label_number(prefix = "0")(taskNum)
   scriptFileName <- paste(step, scriptName, sep = "_")
 
+  if (is.null(configBlock)) {
+    configBlock <- "[Add config block]"
+  }
+
   data <- rlang::list2(
     'Name' = snakecase::to_title_case(scriptName),
     'Author' = getStudyDetails("StudyLead"),
     'Date' = lubridate::today(),
     'FileName' = scriptFileName,
-    'old' = oldConnectionStyle
+    'Block' = configBlock
   )
 
   usethis::use_template(
-    template = "AnalysisScript",
+    template = "AnalysisScript.R",
     save_as = fs::path("analysis/studyTasks", scriptFileName, ext = "R"),
     data = data,
     open = open,
