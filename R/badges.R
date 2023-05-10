@@ -3,19 +3,17 @@ studyBadge <- function(badgeName, src) {
   if (is.null(path)) {
     cli::cat_bullet("Unable to find a README in picard project. Run `picard::makeReadMe()` to initialize.",
                     bullet = "cross", bullet_col = "red")
-    changed <- "No Change"
+    path <- "README"
 
-  } else {
-    changed <- usethis:::block_append(
-      glue::glue("{crayon::green(badgeName)} badge"),
-      glue::glue("![{badgeName}]({src})"),
-      path = path,
-      block_start = "<!-- badges: start -->",
-      block_end = "<!-- badges: end -->"
-    )
   }
+  usethis:::block_replace(
+    glue::glue("{crayon::green(badgeName)} badge"),
+    glue::glue("![{badgeName}]({src})"),
+    path = path,
+    block_start = "<!-- studyStatus: start -->",
+    block_end = "<!-- studyStatus: end -->"
+  )
 
-  invisible(changed)
 
 }
 
