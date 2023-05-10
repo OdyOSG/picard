@@ -4,11 +4,9 @@
 \alias{makeStudySynopsis}
 \title{Function to create a Synopsis file}
 \usage{
-makeStudySynopsis(projectPath = here::here(), open = TRUE)
+makeStudySynopsis(open = TRUE)
 }
 \arguments{
-\item{projectPath}{the path to the project}
-
 \item{open}{toggle on whether the file should be opened}
 }
 \description{
