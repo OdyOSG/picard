@@ -5,8 +5,7 @@
 \title{Add cohorts from webapi to ohdsi project}
 \usage{
 addCohortsWebApi(
-  type = c("studyPop", "strata", "covariates", "target", "comparator", "outcome",
-    "exposure", "diagnostics", "other"),
+  folderName,
   cohortIds,
   webApiBaseUrl = Sys.getenv("WEBAPI_URL"),
   webApiAuthMethod = Sys.getenv("WEBAPI_AUTHMETHOD"),
@@ -16,7 +15,7 @@ addCohortsWebApi(
 )
 }
 \arguments{
-\item{type}{the type of subfolder to add for cohorts in the project}
+\item{folderName}{the name of the folder to add the cohorts}
 
 \item{cohortIds}{a vector of cohorts ids used to identify the cohorts to upload from webapi
 into the input/cohortsToCreate folder of the project}

@@ -5,14 +5,13 @@
 \title{Add cohorts that are json files to ohdsi project}
 \usage{
 addCohortsFiles(
-  type = c("studyPop", "strata", "covariates", "target", "comparator", "outcome",
-    "exposure", "diagnostics", "other"),
+  folderName,
   files,
-  cohortFolder = here::here("input/cohortsToCreate")
+  cohortFolder = here::here("cohortsToCreate")
 )
 }
 \arguments{
-\item{type}{the type of subfolder to add for cohorts in the project}
+\item{folderName}{the name of the folder to add the cohorts}
 
 \item{files}{a set of json files to move into the input/cohortsToCreate folder of the project}
 

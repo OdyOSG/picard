@@ -1,33 +1,16 @@
 #' Add cohorts that are json files to ohdsi project
 #' @description This function adds cohort json files to a subfolder in input/cohortsToCreate.
 #' The subfolder is specified by the type.
-#' @param type the type of subfolder to add for cohorts in the project
+#' @param folderName the name of the folder to add the cohorts
 #' @param files a set of json files to move into the input/cohortsToCreate folder of the project
 #' @param cohortFolder the input/cohortsToCreate folder to save the cohorts, defaults to the folder
 #' within the active project binding
 #' @export
-addCohortsFiles<- function(type = c('studyPop', 'strata', 'covariates',
-                                    'target', 'comparator', 'outcome',
-                                    'exposure', 'diagnostics', 'other'),
+addCohortsFiles<- function(folderName,
                            files,
-                           cohortFolder = here::here("input/cohortsToCreate")) {
+                           cohortFolder = here::here("cohortsToCreate")) {
 
-  type <- checkmate::matchArg(type, c('studyPop', 'strata', 'covariates',
-                                      'target', 'comparator', 'outcome',
-                                      'exposure', 'diagnostics', 'other'))
-  folderName <- switch(
-    type,
-    studyPop = fs::path(cohortFolder, "01_studyPop"),
-    strata = fs::path(cohortFolder, "02_strata"),
-    covariates = fs::path(cohortFolder, "03_covariates"),
-    target = fs::path(cohortFolder, "04_target"),
-    comparator = fs::path(cohortFolder, "05_comparator"),
-    outcome = fs::path(cohortFolder, "06_outcome"),
-    exposure = fs::path(cohortFolder, "07_exposure"),
-    diagnostics = fs::path(cohortFolder, "08_diagnostics"),
-    other = fs::path(cohortFolder, "09_other")
-  )
-
+  folderName <- fs::path(cohortFolder, folderName)
   #Scenario 1: all json files
   ff <- basename(files)
   ext <- tools::file_ext(files)
@@ -48,33 +31,16 @@ addCohortsFiles<- function(type = c('studyPop', 'strata', 'covariates',
 #' Add capr cohorts to an ohdsi project
 #' @description This function adds capr cohorts to a subfolder in input/cohortsToCreate.
 #' The subfolder is specified by the type.
-#' @param type the type of subfolder to add for cohorts in the project
+#' @param folderName the name of the folder to add the cohorts
 #' @param caprList a list of capr objects to upload into the input/cohortsToCreate folder of the project
 #' @param cohortFolder the input/cohortsToCreate folder to save the cohorts, defaults to the folder
 #' within the active project binding
 #' @export
-addCohortsCapr<- function(type = c('studyPop', 'strata', 'covariates',
-                                   'target', 'comparator', 'outcome',
-                                   'exposure', 'diagnostics', 'other'),
+addCohortsCapr<- function(folderName,
                           caprList,
                           cohortFolder = here::here("input/cohortsToCreate")) {
 
-  type <- checkmate::matchArg(type, c('studyPop', 'strata', 'covariates',
-                                      'target', 'comparator', 'outcome',
-                                      'exposure', 'diagnostics', 'other'))
-  folderName <- switch(
-    type,
-    studyPop = fs::path(cohortFolder, "01_studyPop"),
-    strata = fs::path(cohortFolder, "02_strata"),
-    covariates = fs::path(cohortFolder, "03_covariates"),
-    target = fs::path(cohortFolder, "04_target"),
-    comparator = fs::path(cohortFolder, "05_comparator"),
-    outcome = fs::path(cohortFolder, "06_outcome"),
-    exposure = fs::path(cohortFolder, "07_exposure"),
-    diagnostics = fs::path(cohortFolder, "08_diagnostics"),
-    other = fs::path(cohortFolder, "09_other")
-  )
-
+  folderName <- fs::path(cohortFolder, folderName)
 
   #Scenario 2: capr objects to load into a project
   check <- purrr::map_chr(caprList, ~methods::is(.x))
@@ -121,7 +87,7 @@ getWebApiCohortInfo <- function(cohortId, baseUrl) {
 #' Add cohorts from webapi to ohdsi project
 #' @description This function adds cohort jsons from ATLAS to a subfolder in input/cohortsToCreate.
 #' The subfolder is specified by the type.
-#' @param type the type of subfolder to add for cohorts in the project
+#' @param folderName the name of the folder to add the cohorts
 #' @param cohortIds a vector of cohorts ids used to identify the cohorts to upload from webapi
 #' into the input/cohortsToCreate folder of the project
 #' @param webApiBaseUrl the base URL to access webapi, defaults to a system envrionment variable
@@ -131,9 +97,7 @@ getWebApiCohortInfo <- function(cohortId, baseUrl) {
 #' @param cohortFolder the input/cohortsToCreate folder to save the cohorts, defaults to the folder
 #' within the active project binding
 #' @export
-addCohortsWebApi <- function(type = c('studyPop', 'strata', 'covariates',
-                                   'target', 'comparator', 'outcome',
-                                   'exposure', 'diagnostics', 'other'),
+addCohortsWebApi <- function(folderName,
                           cohortIds,
                           webApiBaseUrl = Sys.getenv("WEBAPI_URL"),
                           webApiAuthMethod = Sys.getenv("WEBAPI_AUTHMETHOD"),
@@ -158,21 +122,7 @@ addCohortsWebApi <- function(type = c('studyPop', 'strata', 'covariates',
     stop("Need to set environement variable for webapi password")
   }
 
-  type <- checkmate::matchArg(type, c('studyPop', 'strata', 'covariates',
-                                      'target', 'comparator', 'outcome',
-                                      'exposure', 'diagnostics', 'other'))
-  folderName <- switch(
-    type,
-    studyPop = fs::path(cohortFolder, "01_studyPop"),
-    strata = fs::path(cohortFolder, "02_strata"),
-    covariates = fs::path(cohortFolder, "03_covariates"),
-    target = fs::path(cohortFolder, "04_target"),
-    comparator = fs::path(cohortFolder, "05_comparator"),
-    outcome = fs::path(cohortFolder, "06_outcome"),
-    exposure = fs::path(cohortFolder, "07_exposure"),
-    diagnostics = fs::path(cohortFolder, "08_diagnostics"),
-    other = fs::path(cohortFolder, "09_other")
-  )
+  folderName <- fs::path(cohortFolder, folderName)
 
 
   #authorize webapi
@@ -207,7 +157,7 @@ addCohortsWebApi <- function(type = c('studyPop', 'strata', 'covariates',
 #' project directory
 #' @return a tibble with the list of cohorts created based on the project
 #' @export
-cohortManifest <- function(inputPath = here::here("input/cohortsToCreate")) {
+cohortManifest <- function(inputPath = here::here("cohortsToCreate")) {
 
   #get cohort file paths
   cohortFiles <- fs::dir_ls(inputPath, recurse = TRUE, type = "file")

@@ -4,11 +4,14 @@
 \alias{cohortManifest}
 \title{Function to construct cohort manifest}
 \usage{
-cohortManifest(inputPath = here::here("input/cohortsToCreate"))
+cohortManifest(inputPath = here::here("cohortsToCreate"))
 }
 \arguments{
 \item{inputPath}{path of input folder defaults to 'input/cohortsToCreate' in
 project directory}
+}
+\value{
+a tibble with the list of cohorts created based on the project
 }
 \description{
 Function to construct cohort manifest

@@ -1,52 +1,52 @@
 
-create_proj_dir <- function(projectSpecs) {
-  # Step 1: create project directory
-  cli::cat_bullet("Step 1: Creating Directory",
-                  bullet_col = "green", bullet = "info")
-  dir_path <- fs::path(projectSpecs$location, projectSpecs$projectName)
-  dir_path %>% fs::dir_create()
-  invisible(dir_path)
-}
+flattenStudyYml <- function(projectPath = here::here()) {
+  yml <- fs::path(projectPath, "_study.yml") %>%
+    yaml::read_yaml()
 
-add_r_proj <- function(projectSpecs) {
-  cli::cat_bullet("Step 2: Add .RProj to Directory",
-                  bullet_col = "green", bullet = "info")
-  dir_path <- fs::path(projectSpecs$location, projectSpecs$projectName)
-  usethis::create_project(dir_path, open = FALSE)
-  invisible(dir_path)
+  studyYml <- yml$Study
+  names(studyYml) <- paste0("Study", names(studyYml))
+
+  linksYml <- yml$Links
+  names(linksYml) <- paste0("Links", names(linksYml))
+
+  yml2 <- c(studyYml, linksYml)
+  return(yml2)
 }
 
 
-create_proj_folders <- function(projectSpecs) {
+getStudyDetails <- function(item, projectPath = here::here()) {
 
-  cli::cat_bullet("Step 3: Adding Default Project Folders",
-                  bullet_col = "green", bullet = "info")
-  projectSpecs$location %>%
-    fs::path(projectSpecs$projectName,projectSpecs$folders) %>%
-    fs::dir_create(recurse = TRUE)
-}
+  yml <- flattenStudyYml(projectPath = projectPath)
+  yml[[item]]
 
-open_new_proj <- function(projectSpecs) {
-  cli::cat_bullet("Open project in new session",
-                  bullet_col = "green", bullet = "info")
-  dir_path <- fs::path(projectSpecs$location, projectSpecs$projectName)
-  rstudioapi::openProject(dir_path, newSession = TRUE)
-  invisible(dir_path)
 }
 
 
-add_news_file <- function(projectSpecs) {
-  cli::cat_bullet("Step 7: Add news file to project",
-                  bullet_col = "green", bullet = "info")
-  vv <- glue::glue("## {projectSpecs$projectName} 0.0.1")
-  txt <- c(
-    vv,
-    "-   Initialize ohdsi project",
-    "-   Setup config.yml file",
-    "-   Initialize cohort tables"
-  )
-  filePath <- fs::path(projectSpecs$location, projectSpecs$projectName, "NEWS.md")
-  readr::write_lines(txt, file = filePath)
-  invisible(txt)
-}
+findStepNumber <- function(dir = c("cohortsToCreate", "analysis/studyTasks"), projectPath = here::here()) {
 
+  dir <- match.arg(dir, choices = c("cohortsToCreate", "analysis/studyTasks"))
+
+  if (dir == "cohortsToCreate") {
+    items <- fs::path(projectPath, dir) %>%
+      fs::dir_ls(type = "directory") %>%
+      basename()
+  }
+
+  if (dir == "analysis/studyTasks") {
+    items <- fs::path(projectPath, dir) %>%
+      fs::dir_ls(type = "file") %>%
+      basename()
+  }
+
+  if (length(items) == 0) {
+    step <- 1L
+  } else {
+    lastNumber <- gsub("_.*", "", items) %>%
+      as.integer() %>%
+      max()
+    step <- lastNumber + 1L
+  }
+
+  return(step)
+
+}
