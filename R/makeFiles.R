@@ -84,7 +84,6 @@ makeNews <- function(projectPath = here::here(), open = TRUE) {
 #' @param database the name of the database for the block
 #' @param projectPath the path to the project
 #' @param open toggle on whether the file should be opened
-#' @param type the type of config style to use
 #' @export
 makeConfig <- function(block, database, projectPath = here::here(), open = TRUE) {
 
@@ -140,8 +139,7 @@ makeCohortDetails <- function(projectPath = here::here(), open = TRUE) {
 }
 
 #' Function to create a cohort folder in input/cohortsToCreate
-#' @param foldernName The name of the new folder
-#' @param projectPath the path to the project
+#' @param folderName The name of the new folder
 #' @export
 makeCohortFolder <- function(folderName) {
 

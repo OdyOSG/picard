@@ -33,7 +33,14 @@ Imports:
     tidyr,
     glue,
     here,
-    magrittr
+    magrittr,
+    methods,
+    gh,
+    digest,
+    curl,
+    RJSONIO,
+    ROhdsiWebApi,
+    Capr
 Suggests: 
     knitr,
     rmarkdown,
