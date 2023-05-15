@@ -4,3 +4,7 @@
 scratch/
 extras
 docs
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
