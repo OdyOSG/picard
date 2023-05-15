@@ -14,8 +14,6 @@ makeConfig(block, database, projectPath = here::here(), open = TRUE)
 \item{projectPath}{the path to the project}
 
 \item{open}{toggle on whether the file should be opened}
-
-\item{type}{the type of config style to use}
 }
 \description{
 Function to create a config.yml file

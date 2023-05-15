@@ -36,7 +36,8 @@ newOhdsiStudy <- function(projectName,
     paste('analysis', analysisFolders, sep = "/"),
     'results',
     'extras',
-    'logs'
+    'logs',
+    'documentation'
   )
 
   fs::path(dir_path, folders) %>%

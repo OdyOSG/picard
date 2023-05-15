@@ -7,9 +7,7 @@
 makeCohortFolder(folderName)
 }
 \arguments{
-\item{foldernName}{The name of the new folder}
-
-\item{projectPath}{the path to the project}
+\item{folderName}{The name of the new folder}
 }
 \description{
 Function to create a cohort folder in input/cohortsToCreate
