@@ -26,28 +26,12 @@ newOhdsiStudy <- function(projectName,
   usethis:::use_rstudio()
 
   # Step 3: add picard directory structure folders
-  cli::cat_bullet("Step 3: Adding OHDSI Study Project Folders",
-                  bullet_col = "yellow", bullet = "info")
-
-  cohortFolders <- c('01_target')
-  analysisFolders <- c("settings", "studyTasks", "private")
-  folders <- c(
-    paste('cohortsToCreate', cohortFolders, sep = "/"),
-    paste('analysis', analysisFolders, sep = "/"),
-    'results',
-    'extras',
-    'logs',
-    'documentation'
-  )
-
-  fs::path(dir_path, folders) %>%
-    fs::dir_create(recurse = TRUE)
+  addDefaultFolders(projectPath = dir_path)
 
   # Step 4: create _picard.yml file
-  cli::cat_bullet("Step 4: Adding _study.yml file",
-                  bullet_col = "yellow", bullet = "info")
-  makeStudyMeta(author = author, type = type,
-                projectPath = dir_path)
+  addStudyMeta(author = author,
+               type = type,
+               projectPath = dir_path)
 
 
   # Step 5: create gitignore
@@ -96,5 +80,55 @@ isOhdsiStudy <- function(basePath) {
   }
 
   invisible(check1)
+
+}
+
+
+addDefaultFolders <- function(projectPath) {
+  cli::cat_bullet("Step 3: Adding OHDSI Study Project Folders",
+                  bullet_col = "yellow", bullet = "info")
+
+  cohortFolders <- c('01_target')
+  analysisFolders <- c("settings", "studyTasks", "private")
+  folders <- c(
+    paste('cohortsToCreate', cohortFolders, sep = "/"),
+    paste('analysis', analysisFolders, sep = "/"),
+    'results',
+    'extras',
+    'logs',
+    'documentation'
+  )
+
+  pp <- fs::path(projectPath, folders) %>%
+    fs::dir_create(recurse = TRUE)
+  invisible(pp)
+}
+
+addStudyMeta <- function(author,
+                         type = c("Characterization", "Population-Level Estimation", "Patient-Level Prediction"),
+                         projectPath){
+
+  cli::cat_bullet("Step 4: Adding _study.yml file",
+                  bullet_col = "yellow", bullet = "info")
+
+
+  projName <- basename(projectPath) %>%
+    snakecase::to_title_case()
+  date <- lubridate::today()
+
+  data <- rlang::list2(
+    'Title' = projName,
+    'Author' = author,
+    'Type' = type,
+    'Date' = date
+  )
+
+  template_contents <- usethis:::render_template("_study.yml",
+                                                 data = data,
+                                                 package = "picard")
+  save_as <- fs::path(projectPath, "_study.yml")
+  new <- usethis:::write_utf8(save_as, template_contents)
+  invisible(new)
+
 
 }
