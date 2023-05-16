@@ -15,7 +15,7 @@ if (!is.null(session_temp_proj)) {
   ))
 }
 
-create_local_project <- function(dir = fs::file_temp(pattern = "testproj"),
+create_local_study <- function(dir = fs::file_temp(pattern = "testproj"),
                                  env = parent.frame()) {
 
   if (fs::dir_exists(dir)) {
