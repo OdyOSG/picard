@@ -4,6 +4,7 @@
 #' @param type the type of study either Characterization, PLP or PLE
 #' @param directory the directory to create the project
 #' @param openProject should the project be opened if created
+#' @import rlang usethis fs
 #' @export
 newOhdsiStudy <- function(projectName,
                           author,
@@ -12,18 +13,20 @@ newOhdsiStudy <- function(projectName,
                           openProject = TRUE) {
 
   # Step 1: create project directory
-  cli::cat_bullet("Step 1: Creating Directory",
+  cli::cat_bullet("Step 1: Creating R Project",
                   bullet_col = "yellow", bullet = "info")
-  dir_path <- fs::path(directory, projectName)
-  dir_path %>% fs::dir_create()
+  path <- fs::path_expand(directory)
 
-  # Step 2: Add .RProj to Directory
-  cli::cat_bullet("Step 2: Add .RProj to Directory",
-                  bullet_col = "yellow", bullet = "info")
-  path <- usethis:::user_path_prep(dir_path)
-  pName <- fs::path_file(fs::path_abs(dir_path))
-  usethis:::local_project(dir_path, force = TRUE)
-  usethis:::use_rstudio()
+  ## Create the directory
+  dir_path <- fs::path(path, projectName) %>%
+    fs::dir_create()
+  #cli::cat_line("\t- Creating ", crayon::cyan(dir_path))
+
+  ## Make local project
+  usethis::local_project(dir_path, force = TRUE)
+  usethis::use_rstudio()
+  #cli::cat_line("\t- Adding .Rproj")
+
 
   # Step 3: add picard directory structure folders
   addDefaultFolders(projectPath = dir_path)
@@ -35,10 +38,10 @@ newOhdsiStudy <- function(projectName,
 
 
   # Step 5: create gitignore
-  cli::cat_bullet("Step 5: Add to .gitignore file",
+  cli::cat_bullet("Step 4: Add to .gitignore file",
                   bullet_col = "yellow", bullet = "info")
   ignores <- c("results/","logs/", "_study.yml")
-  usethis:::write_union(fs::path(dir_path, ".gitignore"), ignores)
+  usethis::write_union(fs::path(dir_path, ".gitignore"), ignores)
 
 
   if (openProject) {
@@ -85,7 +88,7 @@ isOhdsiStudy <- function(basePath) {
 
 
 addDefaultFolders <- function(projectPath) {
-  cli::cat_bullet("Step 3: Adding OHDSI Study Project Folders",
+  cli::cat_bullet("Step 2: Adding OHDSI Study Project Folders",
                   bullet_col = "yellow", bullet = "info")
 
   cohortFolders <- c('01_target')
@@ -108,7 +111,7 @@ addStudyMeta <- function(author,
                          type = c("Characterization", "Population-Level Estimation", "Patient-Level Prediction"),
                          projectPath){
 
-  cli::cat_bullet("Step 4: Adding _study.yml file",
+  cli::cat_bullet("Step 3: Adding _study.yml file",
                   bullet_col = "yellow", bullet = "info")
 
 
@@ -123,9 +126,7 @@ addStudyMeta <- function(author,
     'Date' = date
   )
 
-  template_contents <- usethis:::render_template("_study.yml",
-                                                 data = data,
-                                                 package = "picard")
+  template_contents <- render_template("_study.yml", data = data)
   save_as <- fs::path(projectPath, "_study.yml")
   new <- write_utf8(save_as, template_contents)
   invisible(new)
