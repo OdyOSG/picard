@@ -1,30 +1,5 @@
 # Study Files ----------------------------
 
-# #make _study.yml file
-# makeStudyMeta <- function(author,
-#                           type = c("Characterization", "Population-Level Estimation", "Patient-Level Prediction"),
-#                           projectPath = here::here()) {
-#
-#
-#   projName <- basename(projectPath) %>%
-#     snakecase::to_title_case()
-#   date <- lubridate::today()
-#
-#   data <- rlang::list2(
-#     'Title' = projName,
-#     'Author' = author,
-#     'Type' = type,
-#     'Date' = date
-#   )
-#
-#   template_contents <- usethis:::render_template("_study.yml",
-#                                                  data = data,
-#                                                  package = "picard")
-#   save_as <- fs::path(projectPath, "_study.yml")
-#   new <- usethis:::write_utf8(save_as, template_contents)
-#   invisible(new)
-# }
-
 
 #' Function to create a README file
 #' @param projectPath the path to the project
@@ -61,12 +36,8 @@ makeReadMe <- function(projectPath = here::here(), open = TRUE) {
 #' @export
 makeNews <- function(projectPath = here::here(), open = TRUE) {
 
-  projName <- basename(projectPath) %>%
-    snakecase::to_title_case()
-
-
   data <- rlang::list2(
-    'Project' = projName,
+    'Project' = getStudyDetails("StudyTitle", projectPath = projectPath)
   )
 
   usethis::use_template(
@@ -88,12 +59,8 @@ makeNews <- function(projectPath = here::here(), open = TRUE) {
 makeConfig <- function(block, database, projectPath = here::here(), open = TRUE) {
 
 
-  projName <- basename(projectPath) %>%
-    snakecase::to_snake_case()
-
-
   data <- rlang::list2(
-    'Project' = projName,
+    'Project' = getStudyDetails("StudyTitle", projectPath = projectPath),
     'Cohort' = paste(projName, database, sep = "_"),
     'Block' = block,
     'Database' = database
@@ -119,12 +86,9 @@ makeConfig <- function(block, database, projectPath = here::here(), open = TRUE)
 #' @export
 makeCohortDetails <- function(projectPath = here::here(), open = TRUE) {
 
-  projName <- basename(projectPath) %>%
-    snakecase::to_title_case()
-
 
   data <- rlang::list2(
-    'Study' = projName,
+    'Study' = getStudyDetails("StudyTitle", projectPath = projectPath)
   )
 
   usethis::use_template(
@@ -138,30 +102,6 @@ makeCohortDetails <- function(projectPath = here::here(), open = TRUE) {
 
 }
 
-#' Function to create a cohort folder in input/cohortsToCreate
-#' @param folderName The name of the new folder
-#' @export
-makeCohortFolder <- function(folderName) {
-
-  folderNumber <- findStepNumber(dir = "cohortsToCreate")
-
-  if (folderNumber < 10L) {
-    folderNumber <- scales::label_number(prefix = "0")(folderNumber)
-  }
-
-  folderName <- snakecase::to_upper_camel_case(folderName)
-
-  fullName <- paste(folderNumber, folderName, sep = "_")
-
-  cli::cat_bullet("Creating new cohort folder ", crayon::cyan(fullName), " in path ", crayon::cyan(dir_path),
-                  bullet = "tick", bullet_col = "green")
-
-  fs::path(dir_path, fullName)%>%
-    fs::dir_create()
-
-  invisible(fullName)
-
-}
 
 # Analysis Files --------------------------
 #' Function to create an example OHDSI script
@@ -184,7 +124,7 @@ makeExample <- function(fileName, savePath = here::here(), open = TRUE) {
                                                  package = "picard")
 
   save_as <- fs::path(savePath, fileName, ext = "R")
-  new <- usethis:::write_utf8(save_as, template_contents)
+  new <- write_utf8(save_as, template_contents)
   rstudioapi::navigateToFile(save_as)
   invisible(new)
 
@@ -195,7 +135,10 @@ makeExample <- function(fileName, savePath = here::here(), open = TRUE) {
 #' @param configBlock the name of the config block to use for the script
 #' @param open toggle on whether the file should be opened
 #' @export
-makeAnalysisScript <- function(scriptName, configBlock = NULL, open = TRUE) {
+makeAnalysisScript <- function(scriptName,
+                               configBlock = NULL,
+                               projectPath = here::here(),
+                               open = TRUE) {
 
 
   taskNum <- findStepNumber(dir = "analysis/studyTasks")
@@ -208,7 +151,7 @@ makeAnalysisScript <- function(scriptName, configBlock = NULL, open = TRUE) {
 
   data <- rlang::list2(
     'Name' = snakecase::to_title_case(scriptName),
-    'Author' = getStudyDetails("StudyLead"),
+    'Author' = getStudyDetails("StudyLead", projectPath = projectPath),
     'Date' = lubridate::today(),
     'FileName' = scriptFileName,
     'Block' = configBlock
@@ -272,7 +215,7 @@ makeInternals <- function(internalsName, projectPath = here::here(), open = TRUE
 
   data <- rlang::list2(
     'Task' = snakecase::to_title_case(internalsName),
-    'Author' = getStudyDetails("StudyLead"),
+    'Author' = getStudyDetails("StudyLead", projectPath = projectPath),
     'Date' = lubridate::today(),
     'FileName' = intFileName
   )
@@ -298,7 +241,7 @@ makeInternals <- function(internalsName, projectPath = here::here(), open = TRUE
 #' @export
 makeKeyringSetup <- function(projectPath = here::here(), open = TRUE, secret = NULL) {
 
-  keyringName <- snakecase::to_snake_case(getStudyDetails("StudyTitle"))
+  keyringName <- snakecase::to_snake_case(getStudyDetails("StudyTitle", projectPath = projectPath))
   if (is.null(secret)) {
     keyringPassword <- keyringName
   }
@@ -323,13 +266,14 @@ makeKeyringSetup <- function(projectPath = here::here(), open = TRUE, secret = N
 }
 
 #' Function to create a Synopsis file
+#' @param projectPath the path to the project
 #' @param open toggle on whether the file should be opened
 #' @export
-makeStudySynopsis <- function(open = TRUE) {
+makeStudySynopsis <- function(projectPath = here::here(), open = TRUE) {
 
   data <- rlang::list2(
-    'Title' = getStudyDetails("StudyTitle"),
-    'Author' = getStudyDetails("StudyLead"),
+    'Title' = getStudyDetails("StudyTitle", projectPath = projectPath),
+    'Author' = getStudyDetails("StudyLead", projectPath = projectPath),
     'Date' = lubridate::today()
   )
 
@@ -347,12 +291,15 @@ makeStudySynopsis <- function(open = TRUE) {
 #' @param org the name of the organization hosting the repo, for example 'ohdsi-studies'.
 #' If null defaults to a dummy text
 #' @param repo the name of the study repository on github, defaults to the study title
+#' @param projectPath the path to the project
 #' @param open toggle on whether the file should be opened
 #' @export
-makeHowTo <- function(org = NULL, repo = NULL, open = TRUE) {
+makeHowToRun <- function(org = NULL, repo = NULL,
+                         projectPath = here::here(),
+                         open = TRUE) {
 
   if (is.null(repo)) {
-    repo <- snakecase::to_snake_case(getStudyDetails("StudyTitle"))
+    repo <- snakecase::to_snake_case(getStudyDetails("StudyTitle", projectPath = projectPath))
   }
 
   if (is.null(org)) {
@@ -360,7 +307,7 @@ makeHowTo <- function(org = NULL, repo = NULL, open = TRUE) {
   }
 
   data <- rlang::list2(
-    'Study' = getStudyDetails("StudyTitle"),
+    'Study' = getStudyDetails("StudyTitle", projectPath = projectPath),
     'Url' = glue::glue("https://github.com/{org}/{repo}"),
     'Org' = org,
     'Repo' = repo
@@ -369,7 +316,7 @@ makeHowTo <- function(org = NULL, repo = NULL, open = TRUE) {
 
   usethis::use_template(
     template = "HowToRun.md",
-    save_as = fs::path("extras", "HowToRun.md"),
+    save_as = fs::path("documents", "HowToRun.md"),
     data = data,
     open = open,
     package = "picard")
@@ -379,19 +326,21 @@ makeHowTo <- function(org = NULL, repo = NULL, open = TRUE) {
 }
 
 #' R Markdown file to make the study protocol
+#' @param projectPath the path to the project
 #' @param open toggle on whether the file should be opened
 #' @export
-makeStudyProtocol <- function(open = TRUE) {
+makeStudyProtocol <- function(projectPath = here::here(),
+                              open = TRUE) {
 
   data <- rlang::list2(
-    Study =  getStudyDetails(item = "StudyTitle"),
-    Date = lubridate::today()
+    'Study' =  getStudyDetails(item = "StudyTitle", projectPath = projectPath),
+    'Date' = lubridate::today()
   )
 
-  fileName <- snakecase::to_upper_camel_case(getStudyDetails(item = "StudyTitle")) %>%
+  fileName <- snakecase::to_upper_camel_case(getStudyDetails(item = "StudyTitle", projectPath = projectPath)) %>%
     paste0("Protocol")
 
-  dir_path <- fs::path("extras", "Protocol") %>%
+  dir_path <- fs::path("documents", "Protocol") %>%
     fs::dir_create()
 
   usethis::use_template(
