@@ -127,7 +127,7 @@ addStudyMeta <- function(author,
                                                  data = data,
                                                  package = "picard")
   save_as <- fs::path(projectPath, "_study.yml")
-  new <- usethis:::write_utf8(save_as, template_contents)
+  new <- write_utf8(save_as, template_contents)
   invisible(new)
 
 
