@@ -1,29 +1,29 @@
 # Study Files ----------------------------
 
-#make _study.yml file
-makeStudyMeta <- function(author,
-                          type = c("Characterization", "Population-Level Estimation", "Patient-Level Prediction"),
-                          projectPath = here::here()) {
-
-
-  projName <- basename(projectPath) %>%
-    snakecase::to_title_case()
-  date <- lubridate::today()
-
-  data <- rlang::list2(
-    'Title' = projName,
-    'Author' = author,
-    'Type' = type,
-    'Date' = date
-  )
-
-  template_contents <- usethis:::render_template("_study.yml",
-                                                 data = data,
-                                                 package = "picard")
-  save_as <- fs::path(projectPath, "_study.yml")
-  new <- usethis:::write_utf8(save_as, template_contents)
-  invisible(new)
-}
+# #make _study.yml file
+# makeStudyMeta <- function(author,
+#                           type = c("Characterization", "Population-Level Estimation", "Patient-Level Prediction"),
+#                           projectPath = here::here()) {
+#
+#
+#   projName <- basename(projectPath) %>%
+#     snakecase::to_title_case()
+#   date <- lubridate::today()
+#
+#   data <- rlang::list2(
+#     'Title' = projName,
+#     'Author' = author,
+#     'Type' = type,
+#     'Date' = date
+#   )
+#
+#   template_contents <- usethis:::render_template("_study.yml",
+#                                                  data = data,
+#                                                  package = "picard")
+#   save_as <- fs::path(projectPath, "_study.yml")
+#   new <- usethis:::write_utf8(save_as, template_contents)
+#   invisible(new)
+# }
 
 
 #' Function to create a README file
