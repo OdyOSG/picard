@@ -248,6 +248,7 @@ makeStudySynopsis <- function(projectPath = here::here(), open = TRUE) {
 
   usethis::use_template(
     template = "StudySynopsis.qmd",
+    save_as = fs::path("documentation", "StudySynopsis.qmd"),
     data = data,
     open = open,
     package = "picard")
@@ -285,7 +286,7 @@ makeHowToRun <- function(org = NULL, repo = NULL,
 
   usethis::use_template(
     template = "HowToRun.md",
-    save_as = fs::path("documents", "HowToRun.md"),
+    save_as = fs::path("documentation", "HowToRun.md"),
     data = data,
     open = open,
     package = "picard")
@@ -309,7 +310,7 @@ makeStudyProtocol <- function(projectPath = here::here(),
   fileName <- snakecase::to_upper_camel_case(getStudyDetails(item = "StudyTitle", projectPath = projectPath)) %>%
     paste0("Protocol")
 
-  dir_path <- fs::path("documents", "Protocol") %>%
+  dir_path <- fs::path("documentation", "Protocol") %>%
     fs::dir_create()
 
   usethis::use_template(
@@ -342,7 +343,7 @@ makeContribution <- function(projectPath = here::here(),
 
   usethis::use_template(
     template = "ContributionGuidelines.md",
-    save_as = fs::path("documents", "ContributionGuidelines.md"),
+    save_as = fs::path("documentation", "ContributionGuidelines.md"),
     data = data,
     open = open,
     package = "picard")
