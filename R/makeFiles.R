@@ -34,15 +34,15 @@ makeReadMe <- function(projectPath = here::here(), open = TRUE) {
 
 
   data <- rlang::list2(
-    'Project' = getStudyDetails("StudyTitle"),
-    'Author' = getStudyDetails("StudyLead"),
-    'StudyType' = getStudyDetails("StudyType"),
-    'StartDate' = getStudyDetails("StudyStartDate"),
-    'EndDate' = getStudyDetails("StudyEndDate"),
-    'StudyTags' = getStudyDetails("StudyTags"),
-    'Protocol' = getStudyDetails("LinksProtocol"),
-    'Publications' = getStudyDetails("LinksPublication"),
-    'Dashboard' = getStudyDetails("LinksDashboard")
+    'Project' = getStudyDetails("StudyTitle", projectPath = projectPath),
+    'Author' = getStudyDetails("StudyLead", projectPath = projectPath),
+    'StudyType' = getStudyDetails("StudyType", projectPath = projectPath),
+    'StartDate' = getStudyDetails("StudyStartDate", projectPath = projectPath),
+    'EndDate' = getStudyDetails("StudyEndDate", projectPath = projectPath),
+    'StudyTags' = getStudyDetails("StudyTags", projectPath = projectPath),
+    'Protocol' = getStudyDetails("LinksProtocol", projectPath = projectPath),
+    'Publications' = getStudyDetails("LinksPublication", projectPath = projectPath),
+    'Dashboard' = getStudyDetails("LinksDashboard", projectPath = projectPath)
   )
 
   usethis::use_template(

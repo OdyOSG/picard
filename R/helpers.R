@@ -14,7 +14,7 @@ flattenStudyYml <- function(projectPath = here::here()) {
 }
 
 
-getStudyDetails <- function(item, projectPath = here::here()) {
+getStudyDetails <- function(item, projectPath) {
 
   yml <- flattenStudyYml(projectPath = projectPath)
   yml[[item]]
