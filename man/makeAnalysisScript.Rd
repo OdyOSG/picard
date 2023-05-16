@@ -4,7 +4,12 @@
 \alias{makeAnalysisScript}
 \title{Function to create a pipeline task as a Rmd file}
 \usage{
-makeAnalysisScript(scriptName, configBlock = NULL, open = TRUE)
+makeAnalysisScript(
+  scriptName,
+  configBlock = NULL,
+  projectPath = here::here(),
+  open = TRUE
+)
 }
 \arguments{
 \item{scriptName}{The name of the analysis script}

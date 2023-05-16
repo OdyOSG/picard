@@ -4,9 +4,11 @@
 \alias{makeStudyProtocol}
 \title{R Markdown file to make the study protocol}
 \usage{
-makeStudyProtocol(open = TRUE)
+makeStudyProtocol(projectPath = here::here(), open = TRUE)
 }
 \arguments{
+\item{projectPath}{the path to the project}
+
 \item{open}{toggle on whether the file should be opened}
 }
 \description{
