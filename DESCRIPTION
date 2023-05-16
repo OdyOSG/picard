@@ -45,6 +45,9 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
+Remotes:
+    ohdsi/ROhdsiWebApi
+    ohdsi/Capr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 URL: https://odyosg.github.io/picard/
