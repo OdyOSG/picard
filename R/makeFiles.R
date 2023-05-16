@@ -231,39 +231,8 @@ makeInternals <- function(internalsName, projectPath = here::here(), open = TRUE
   invisible(data)
 
 }
-# Extra Files --------------------------------
 
-
-#' Function to create a config.yml file
-#' @param projectPath the path to the project
-#' @param open toggle on whether the file should be opened
-#' @param secret a keyword to use as the keyring password to access credentials
-#' @export
-makeKeyringSetup <- function(projectPath = here::here(), open = TRUE, secret = NULL) {
-
-  keyringName <- snakecase::to_snake_case(getStudyDetails("StudyTitle", projectPath = projectPath))
-  if (is.null(secret)) {
-    keyringPassword <- keyringName
-  }
-
-  data <- rlang::list2(
-    'Name' = keyringName,
-    'Secret'= keyringPassword
-  )
-
-  usethis::use_template(
-    template = "KeyringSetup.R",
-    save_as = fs::path("extras", "KeyringSetup.R"),
-    data = data,
-    open = open,
-    package = "picard")
-
-  usethis::use_git_ignore(ignores = "extras/KeyringSetup.R")
-
-  invisible(data)
-
-
-}
+# Documentation Files -----------------------
 
 #' Function to create a Synopsis file
 #' @param projectPath the path to the project
@@ -311,7 +280,7 @@ makeHowToRun <- function(org = NULL, repo = NULL,
     'Url' = glue::glue("https://github.com/{org}/{repo}"),
     'Org' = org,
     'Repo' = repo
-    )
+  )
 
 
   usethis::use_template(
@@ -357,6 +326,65 @@ makeStudyProtocol <- function(projectPath = here::here(),
 
   invisible(data)
 }
+
+#' R Markdown file to make the contribution guidelines
+#' @param projectPath the path to the project
+#' @param open toggle on whether the file should be opened
+#' @export
+makeContribution <- function(projectPath = here::here(),
+                             open = TRUE) {
+
+  data <- rlang::list2(
+    'Study' = getStudyDetails("StudyTitle", projectPath = projectPath),
+    'Lead' = getStudyDetails('StudyLead', projectPath = projectPath)
+  )
+
+
+  usethis::use_template(
+    template = "ContributionGuidelines.md",
+    save_as = fs::path("documents", "ContributionGuidelines.md"),
+    data = data,
+    open = open,
+    package = "picard")
+
+  invisible(data)
+
+}
+
+# Extra Files --------------------------------
+
+
+#' Function to create a config.yml file
+#' @param projectPath the path to the project
+#' @param open toggle on whether the file should be opened
+#' @param secret a keyword to use as the keyring password to access credentials
+#' @export
+makeKeyringSetup <- function(projectPath = here::here(), open = TRUE, secret = NULL) {
+
+  keyringName <- snakecase::to_snake_case(getStudyDetails("StudyTitle", projectPath = projectPath))
+  if (is.null(secret)) {
+    keyringPassword <- keyringName
+  }
+
+  data <- rlang::list2(
+    'Name' = keyringName,
+    'Secret'= keyringPassword
+  )
+
+  usethis::use_template(
+    template = "KeyringSetup.R",
+    save_as = fs::path("extras", "KeyringSetup.R"),
+    data = data,
+    open = open,
+    package = "picard")
+
+  usethis::use_git_ignore(ignores = "extras/KeyringSetup.R")
+
+  invisible(data)
+
+
+}
+
 
 #' Email asking to initialize an ohdsi-studies repo
 #' @param senderName the name of the person sending the email
