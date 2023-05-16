@@ -8,5 +8,6 @@
 
 library(testthat)
 library(picard)
+library(usethis)
 
 test_check("picard")

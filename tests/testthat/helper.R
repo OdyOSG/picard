@@ -5,7 +5,7 @@
 ## The IDE sometimes leaves .Rproj files behind in session temp directory or
 ## one of its parents.
 ## Delete such files manually.
-session_temp_proj <- proj_find(path_temp())
+session_temp_proj <- usethis:::proj_find(fs::path_temp())
 if (!is.null(session_temp_proj)) {
   Rproj_files <- fs::dir_ls(session_temp_proj, glob = "*.Rproj")
   ui_line(c(
@@ -15,7 +15,7 @@ if (!is.null(session_temp_proj)) {
   ))
 }
 
-create_local_study <- function(dir = fs::file_temp(pattern = "testproj"),
+create_local_study <- function(dir,
                                  env = parent.frame()) {
 
   if (fs::dir_exists(dir)) {
@@ -34,11 +34,7 @@ create_local_study <- function(dir = fs::file_temp(pattern = "testproj"),
   )
 
   usethis::ui_silence(
-    newOhdsiStudy(projectName = "test",
-                  author = "Jean-Luc Picard",
-                  type = "Characterization",
-                  directory = dir,
-                  openProject = FALSE)
+    start_study(dir)
   )
 
   withr::defer(proj_set(old_project, force = TRUE), envir = env)
@@ -54,4 +50,18 @@ create_local_study <- function(dir = fs::file_temp(pattern = "testproj"),
   setwd(usethis:::proj_get())
 
   invisible(usethis:::proj_get())
+}
+
+
+start_study <- function(dir) {
+  create_project(dir, rstudio = FALSE, open = FALSE)
+  addDefaultFolders(projectPath = dir)
+  addStudyMeta(author = "Jean-Luc Picard",
+               type = "Characterization",
+               projectPath = dir)
+}
+
+
+scrub_testpkg <- function(message) {
+  gsub("testpkg[a-zA-Z0-9]+", "{TESTPKG}", message, perl = TRUE)
 }
