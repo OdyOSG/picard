@@ -47,7 +47,7 @@ newOhdsiStudy <- function(projectName,
   cli::cat_bullet("Step 4: Adding _study.yml file",
                   bullet_col = "yellow", bullet = "info")
   makeStudyMeta(author = author, type = type,
-                projectPath = dir_path, open = FALSE)
+                projectPath = dir_path)
 
 
   # Step 5: create gitignore
