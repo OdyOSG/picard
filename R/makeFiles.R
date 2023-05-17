@@ -354,6 +354,32 @@ makeContribution <- function(projectPath = here::here(),
 
 }
 
+#' Quarto file to make a results report
+#' @param projectPath the path to the project
+#' @param open toggle on whether the file should be opened
+#' @export
+makeResultsReport <- function(projectPath = here::here(),
+                             open = TRUE) {
+
+  data <- rlang::list2(
+    'Title' = getStudyDetails("StudyTitle", projectPath = projectPath),
+    'Author' = getStudyDetails('StudyLead', projectPath = projectPath),
+    'Date' = lubridate::today()
+  )
+
+
+  usethis::use_template(
+    template = "ResultsReport.qmd",
+    save_as = fs::path("documentation", "ResultsReport.qmd"),
+    data = data,
+    open = open,
+    package = "picard")
+
+  invisible(data)
+
+}
+
+
 # Extra Files --------------------------------
 
 
