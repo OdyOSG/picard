@@ -11,6 +11,10 @@ addCohortsFiles<- function(folderName,
                            cohortFolder = here::here("cohortsToCreate")) {
 
   folderName <- fs::path(cohortFolder, folderName)
+  check <- doesCohortFolderExist(folderName)
+  if (!check) {
+    stop("Directory does not exist. Check folderName and cohortFolder")
+  }
   #Scenario 1: all json files
   ff <- basename(files)
   ext <- tools::file_ext(files)
@@ -27,6 +31,26 @@ addCohortsFiles<- function(folderName,
 
 }
 
+
+doesCohortFolderExist <- function(path) {
+
+  #path <- fs::path(cohortFolder, folderName)
+  check <- fs::dir_exists(path)
+
+  if (!check) {
+    txt <- glue::glue("Directory {crayon::cyan(path)} does not exist.\nDo you want to create it?")
+    ans <- usethis::ui_yeah(txt)
+    if (ans) {
+      cli::cat_bullet("Creating directory ", crayon::cyan(path),
+                      bullet = "tick", bullet_col = "green")
+      fs::dir_create(path)
+    } else{
+      invisible(check)
+    }
+  }
+  invisible(check)
+
+}
 
 #' Add capr cohorts to an ohdsi project
 #' @description This function adds capr cohorts to a subfolder in input/cohortsToCreate.
