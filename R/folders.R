@@ -9,12 +9,12 @@ addFolder <- function(name, path) {
 
 
 #' Function to create a cohort folder in input/cohortsToCreate
-#' @param projectPath the path to the project
 #' @param folderName The name of the new folder
+#' @param projectPath the path to the project
 #' @export
-addCohortFolder <- function(projectPath, folderName) {
+addCohortFolder <- function(folderName, projectPath = here::here()) {
 
-  dir_path <- fs::path(projectPath, "input")
+  dir_path <- fs::path(projectPath, "cohortsToCreate")
 
   folderNumber <- findStepNumber(dir = "cohortsToCreate")
 
@@ -22,7 +22,7 @@ addCohortFolder <- function(projectPath, folderName) {
     folderNumber <- scales::label_number(prefix = "0")(folderNumber)
   }
 
-  folderName <- snakecase::to_upper_camel_case(folderName)
+  folderName <- snakecase::to_lower_camel_case(folderName)
 
   fullName <- paste(folderNumber, folderName, sep = "_")
 
