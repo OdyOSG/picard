@@ -58,9 +58,11 @@ makeNews <- function(projectPath = here::here(), open = TRUE) {
 #' @export
 makeConfig <- function(block, database, projectPath = here::here(), open = TRUE) {
 
+  projName <- getStudyDetails("StudyTitle", projectPath = projectPath) %>%
+    snakecase::to_lower_camel_case()
 
   data <- rlang::list2(
-    'Project' = getStudyDetails("StudyTitle", projectPath = projectPath),
+    'Project' = projName,
     'Cohort' = paste(projName, database, sep = "_"),
     'Block' = block,
     'Database' = database
