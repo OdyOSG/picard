@@ -102,7 +102,7 @@ addDefaultFolders <- function(projectPath) {
     'documentation'
   )
 
-  pp <- fs::path(projectPath, folders) %>%
+  pp <- fs::path("./", folders) %>%
     fs::dir_create(recurse = TRUE)
   invisible(pp)
 }
