@@ -1,5 +1,5 @@
 ---
-title: {{{ Title }}}
+title: SAP for {{{ Study }}}
 author: {{{ Author }}}
 date: {{{ Date }}}
 format:
@@ -14,9 +14,6 @@ format:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Background
-
-*Add a brief background to the study*
 
 # Research Questions
 
@@ -32,6 +29,21 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Secondary Objectives
 
 ## Exploratory Objectives
+
+
+# Study Design
+
+## Study Population
+
+*Provide information on the study population used in the analysis*
+
+## Exposure Definition
+
+*Provide information on the exposure definition used in the analysis*
+
+## Outcome Definition
+
+*Provide information on the outcome definition used in the analysis*
 
 
 # Data Sources
@@ -54,24 +66,10 @@ flextable::flextable(dataSources)
 
 ```
 
-# Cohorts
-
-*Provide information on the cohorts used in the analysis*
-
-## Target
-
-## Exposures
-
-## Outcomes
-
-## Diagnostics
-
-
 # Analysis Plan
 
 *Provide information on how the analysis will be done*
 
-## Stratafication
 
 ## Covariates
 
@@ -104,9 +102,10 @@ cov <- tibble::tribble(
 flextable::flextable(cov)
 ```
 
+## Stratafication
 
-## Outcome Definitions
 
 ## Data Analysis
+
 
 

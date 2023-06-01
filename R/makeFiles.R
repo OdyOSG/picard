@@ -236,21 +236,24 @@ makeInternals <- function(internalsName, projectPath = here::here(), open = TRUE
 
 # Documentation Files -----------------------
 
-#' Function to create a Synopsis file
+#' Function to create a SAP
 #' @param projectPath the path to the project
 #' @param open toggle on whether the file should be opened
 #' @export
-makeStudySynopsis <- function(projectPath = here::here(), open = TRUE) {
+makeStudySAP <- function(projectPath = here::here(), open = TRUE) {
+
+  title <- getStudyDetails("StudyTitle", projectPath = projectPath) %>%
+    snakecase::to_title_case()
 
   data <- rlang::list2(
-    'Title' = getStudyDetails("StudyTitle", projectPath = projectPath),
+    'Study' = title,
     'Author' = getStudyDetails("StudyLead", projectPath = projectPath),
     'Date' = lubridate::today()
   )
 
   usethis::use_template(
-    template = "StudySynopsis.qmd",
-    save_as = fs::path("documentation", "StudySynopsis.qmd"),
+    template = "StudySAP.qmd",
+    save_as = fs::path("documentation", "StudySAP.qmd"),
     data = data,
     open = open,
     package = "picard")
