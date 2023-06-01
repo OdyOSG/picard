@@ -487,3 +487,30 @@ requestStudyParticipation <- function(senderName, projectPath = here::here(), re
   invisible(data)
 
 }
+
+
+#' Function to create a meeting minutes file
+#' @param projectPath the path to the project
+#' @param open toggle on whether the file should be opened
+#' @export
+makeMeetingMinutes <- function(projectPath = here::here(), open = TRUE) {
+
+  data <- rlang::list2(
+    'Study' = getStudyDetails("StudyTitle", projectPath = projectPath),
+    'Author' = getStudyDetails("StudyLead", projectPath = projectPath),
+    'Date' = lubridate::today()
+  )
+
+  saveName <- glue::glue("minutes_{lubridate::today()}") %>%
+    snakecase::to_snake_case()
+
+  usethis::use_template(
+    template = "MeetingMinutes.qmd",
+    save_as = fs::path("extras/minutes", saveName, ext = "qmd"),
+    data = data,
+    open = open,
+    package = "picard")
+
+  invisible(data)
+
+}
