@@ -4,6 +4,8 @@
 
 <!-- badges: end -->
 
+**NOTE**: picard has been renamed Ulysses and its main repository will be moved to ohdsi github in due course. The functionality described in picard is the same underlying code for Ulysses. 
+
 picard is a workflow package that helps initialize and facilitate an OHDSI project by automating start-up tasks and setting basic organization. It draws inspiration from [`usethis`](https://usethis.r-lib.org/) but designed specifically for OHDSI projects.
 
 ## Installation
